@@ -33,11 +33,15 @@ ______________________________________________________________________
 # Installation
 Eureka requires Python ≥ 3.8. We have tested on Ubuntu 20.04 and 22.04.
 
-1. Create a new conda environment with:
-    ```
-    conda create -n eureka python=3.8
-    conda activate eureka
-    ```
+1. Install ITN
+```
+git clone https://github.com/JKX-yy/ITN-.git
+```
+We saved our running conda environment in isaacgymenvs/isaacgymenvs/environment.yml, and you only need to do the following steps to create an identical conda environment.You can change the name of your environment in environment.yml.
+```
+cd isaacgymenvs/isaacgymenvs/
+conda env create -f environment.yml
+```
 
 2. Install IsaacGym (tested with `Preview Release 4/4`). Follow the [instruction](https://developer.nvidia.com/isaac-gym) to download the package.
 ```	
@@ -47,15 +51,7 @@ pip install -e .
 (test installation) python examples/joint_monkey.py
 ```
 
-3. Install Eureka
-```
-git clone https://github.com/eureka-research/Eureka.git
-cd Eureka; pip install -e .
-cd isaacgymenvs; pip install -e .
-cd ../rl_games; pip install -e .
-```
-
-4. Eureka currently uses OpenAI API for language model queries. You need to have an OpenAI API key to use Eureka [here](https://platform.openai.com/account/api-keys)/. Then, set the environment variable in your terminal
+3. Eureka currently uses OpenAI API for language model queries. You need to have an OpenAI API key to use Eureka [here](https://platform.openai.com/account/api-keys)/. Then, set the environment variable in your terminal
 ```
 export OPENAI_API_KEY= "YOUR_API_KEY"
 ```
