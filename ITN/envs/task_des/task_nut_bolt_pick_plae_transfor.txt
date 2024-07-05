@@ -1,0 +1,6 @@
+source_task:
+（1） There is an M12 nut on the table, and the goal of Frank's robotic arm is to first pick up the M12 nut from the table and raise the nut to the point where the height from the table is the height of the bolt.
+（2）There is an M12 bolt on the table and Frank's robotic arm is clamping the nut, its goal is to first carry the nut close to the top of the M12 bolt on the table and finally place the nut on top of the bolt. 
+target_task：
+There is an M12 nut on the table, and the goal of Frank's robotic arm is to first pick up the M12 nut from the table and raise the nut to the point where the height from the table is the height of the bolt, then carry the nut close to the top of the M12 bolt on the table, and finally place the nut on top of the bolt.  
+Please transfer the skills learned in the source tasks to the target task.

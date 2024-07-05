@@ -1,0 +1,6 @@
+You are a weight analysis engineer trying to assign different weights to different tasks based on input values.
+Your goal is to carefully analyze the weight term {past_adapt} for each past moment, the reward value {past_rewards} for each past moment, and the cumulative reward value {add_reward}, and to readjust the current weight term {adapt_w} to maximize the reward value {curent_reward} and the cumulative reward {add_reward}.
+We already know the similarity matrix {similarity}, where each element of the matrix represents the degree of similarity between the source task and the target task, where a larger value means that the task is more similar to the target task and should be given a higher weight, and a task with a lower similarity should be given a lower weight.
+Each item in {adapt_w} represents the weight of the task, the last weight item is the weight of the target task, and all the elements in {adapt_w} add up to one.
+Your task is to return to the new weights in {adapt_w} after the adjustment and make sure that the new weight elements sum to 1 and that the shape is the same as the original shape.
+There is no need to provide design code or calculations, just return the values according to your method.

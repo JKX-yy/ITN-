@@ -1,0 +1,37 @@
+cos_sim:
+- - 0.6403545141220093
+  - 0.5597655773162842
+gpt_w:
+- - - 0.5
+    - 0.5
+  - - 0.5
+    - 0.5
+  - - 0.5
+    - 0.5
+  - - 0.5
+    - 0.5
+- - - 0.5
+    - 0.5
+  - - 0.5
+    - 0.5
+  - - 0.5
+    - 0.5
+  - - 0.5
+    - 0.5
+is_transfor: true
+reward:
+- 4.587589740753174
+- 3.9364607334136963
+source_task_description:
+- A round peg and a round hole are placed on the table, and the goal of Frank's robot
+  is to lift the peg from the table
+- Franks arm grasps the peg and approaches the hole placed on the table and insertion
+  the peg on the hole.
+success_rate:
+- 0.0
+- 0.0
+target_task_description:
+- There is an M12 nut on the table and the goal of Frank's robotic arm is to first
+  approach the M12 nut from and then lift the M12 nut vertically from the table to
+  a position where the height of the nut is the height of the top of the bolt, keeping
+  the nut xy-axis coordinates constant.

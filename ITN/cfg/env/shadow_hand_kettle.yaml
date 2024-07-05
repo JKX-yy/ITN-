@@ -1,0 +1,12 @@
+description: This class corresponds to the PourWater task. This environment involves
+  two hands, a kettle, and a bucket, we need to hold the kettle with one hand and the bucket
+  with the other hand, and pour the water from the kettle into the bucket. In the
+  practice task in Isaac Gym, we use many small balls to simulate the water
+env_name: shadow_hand_kettle
+task: ShadowHandKettle
+
+
+# 该类与 PourWater 任务相对应。该环境涉及
+#   我们需要用一只手拿着水壶，另一只手拿着水桶，然后将水壶中的水倒入水桶中。
+#   将水从水壶倒入水桶。在
+#   在 Isaac Gym 的练习任务中，我们用许多小球来模拟水桶中的水。

@@ -1,0 +1,12 @@
+description: This class corresponds to the Over2Underarm task. This environment is
+  similar to Catch Underarm,  but with an object in each hand and the corresponding
+  goal on the other hand. Therefore, the environment  requires two objects to be thrown
+  into the other hand at the same time, which requires a higher  manipulation technique
+  than the environment of a single object.
+env_name: shadow_hand_catch_over2underarm
+task: ShadowHandCatchOver2Underarm
+#  该类与 Over2Underarm 任务相对应。该环境
+#   与 "抓住腋下 "类似，但两只手各拿一个物体，另一只手拿着相应的
+#   目标在另一只手上。因此，该环境要求同时向另一只手投掷两个物体。
+#   因此，该环境要求同时将两个物体扔到另一只手上，这对操作技术的要求高于单个物体的环境。
+#   比单个物体的环境要求更高。

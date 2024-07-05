@@ -1,0 +1,1 @@
+This task variable is {task_obs_code_string}.Write an adaptive weight function for the following task: {task_description}.

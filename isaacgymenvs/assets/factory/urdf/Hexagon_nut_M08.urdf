@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot name="Hexagon_nut_M08">
+    <link name="Hexagon_nut_M08">
+        <visual>
+            <geometry>
+                <mesh filename="../mesh/factory_nut_bolt/Hexagon_nuts_M08.obj" scale="0.005 0.005 0.005"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="../mesh/factory_nut_bolt/Hexagon_nuts_M08.obj" scale="0.005 0.005 0.005"/>
+            </geometry>
+            <sdf resolution="512"/>
+        </collision>
+    </link>
+</robot>

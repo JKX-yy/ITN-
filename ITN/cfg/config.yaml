@@ -1,0 +1,31 @@
+defaults:
+  - _self_
+  - env: factory_task_nut_bolt_pick_place
+  - override hydra/output: local
+
+hydra:
+  job:
+    chdir: True
+
+temperature: 1.0
+suffix: GPT  # suffix for generated files (indicates LLM model)
+model: gpt-4-0613  #gpt-4-0314 
+gpt_key: 'sk-mdIi7O0RoLWufmEq02C4B5E7699f4b07Bc8d5cFe0cA9E3B2' 
+gpt_url: 'https://gtapi.xiaoerchaoren.com:8932/v1'
+# gpt3.5
+# model: gpt-3.5-turbo #-16k-0613
+# gpt_key: 'sk-B1vr45pdGzgYmdayA85d910a4b1e48CaA646AfA8365401F0' #"sk-jE0I4dUNGl4drntw957f725080Ec4cB69d17389728C9508f"
+# gpt_url: 'https://gtapi.xiaoerchaoren.com:8932/v1' #"https://gtapi.xiaoerchaoren.com:8932/v1"
+
+
+# ITN parameters
+iteration:  10 # # how many iterations of ITN to run
+sample: 4  # number of ITN samples to generate per iteration
+max_iterations: 1024 #  RL Policy training iterations (decrease this to make the feedback loop faster)
+num_eval: 5 # number of evaluation episodes to run for the final reward
+capture_video: False # whether to capture policy rollout videos
+
+# Weights and Biases
+use_wandb: False # whether to use wandb for logging
+wandb_username: "" # wandb username if logging with wandb
+wandb_project: "" # wandb project if logging with wandb

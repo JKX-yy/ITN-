@@ -1,0 +1,549 @@
+nut_bolt_m4_tight:
+    nut_m4_tight:
+        urdf_path: 'factory_nut_m4_tight'
+        width_min: 0.007  # distance from flat surface to flat surface
+        width_max: 0.0080829  # distance from edge to edge
+        height: 0.0032  # height of nut
+        flat_length: 0.00404145  # length of flat surface
+    bolt_m4_tight:
+        urdf_path: 'factory_bolt_m4_tight'
+        width: 0.004  # major diameter of bolt
+        head_height: 0.004  # height of bolt head
+        shank_length: 0.016  # length of bolt shank
+    thread_pitch: 0.0007  # distance between threads
+
+nut_bolt_m4_loose:
+    nut_m4_loose:
+        urdf_path: 'factory_nut_m4_loose'
+        width_min: 0.007
+        width_max: 0.0080829
+        height: 0.0032
+        flat_length: 0.00404145
+    bolt_m4_loose:
+        urdf_path: 'factory_bolt_m4_loose'
+        width: 0.004
+        head_height: 0.004
+        shank_length: 0.016
+    thread_pitch: 0.0007
+
+nut_bolt_m8_tight:
+    nut_m8_tight:
+        urdf_path: 'factory_nut_m8_tight'
+        width_min: 0.013
+        width_max: 0.01501111
+        height: 0.0065
+        flat_length: 0.00750555
+    bolt_m8_tight:
+        urdf_path: 'factory_bolt_m8_tight'
+        width: 0.008
+        head_height: 0.008
+        shank_length: 0.018
+    thread_pitch: 0.00125
+
+nut_bolt_m8_loose:
+    nut_m8_loose:
+        urdf_path: 'factory_nut_m8_loose'
+        width_min: 0.013
+        width_max: 0.01501111
+        height: 0.0065
+        flat_length: 0.00750555
+    bolt_m8_loose:
+        urdf_path: 'factory_bolt_m8_loose'
+        width: 0.008
+        head_height: 0.008
+        shank_length: 0.018
+    thread_pitch: 0.00125
+
+nut_bolt_m12_tight:
+    nut_m12_tight:
+        urdf_path: 'factory_nut_m12_tight'
+        width_min: 0.019
+        width_max: 0.02193931
+        height: 0.010
+        flat_length: 0.01096966
+    bolt_m12_tight:
+        urdf_path: 'factory_bolt_m12_tight'
+        width: 0.012
+        head_height: 0.012
+        shank_length: 0.020
+    thread_pitch: 0.00175
+
+nut_bolt_m12_loose:
+    nut_m12_loose:
+        urdf_path: 'factory_nut_m12_loose'
+        width_min: 0.019
+        width_max: 0.02193931
+        height: 0.010
+        flat_length: 0.01096966
+    bolt_m12_loose:
+        urdf_path: 'factory_bolt_m12_loose'
+        width: 0.012
+        head_height: 0.012
+        shank_length: 0.020
+    thread_pitch: 0.00175
+
+nut_bolt_m16_tight:
+    nut_m16_tight:
+        urdf_path: 'factory_nut_m16_tight'
+        width_min: 0.024
+        width_max: 0.02771281
+        height: 0.013
+        flat_length: 0.01385641
+    bolt_m16_tight:
+        urdf_path: 'factory_bolt_m16_tight'
+        boltUrdf: bolt_m16
+        width: 0.016
+        head_height: 0.016
+        shank_length: 0.025
+    thread_pitch: 0.002
+
+nut_bolt_m16_loose:
+    nut_m16_loose:
+        urdf_path: 'factory_nut_m16_loose'
+        width_min: 0.024
+        width_max: 0.02771281
+        height: 0.013
+        flat_length: 0.01385641
+    bolt_m16_loose:
+        urdf_path: 'factory_bolt_m16_loose'
+        width: 0.016
+        head_height: 0.016
+        shank_length: 0.025
+    thread_pitch: 0.002
+
+nut_bolt_m20_tight:
+    nut_m20_tight:
+        urdf_path: 'factory_nut_m20_tight'
+        width_min: 0.030
+        width_max: 0.03464102
+        height: 0.016
+        flat_length: 0.01732051
+    bolt_m20_tight:
+        urdf_path: 'factory_bolt_m20_tight'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045
+    thread_pitch: 0.0025
+
+nut_bolt_m20_loose:
+    nut_m20_loose:
+        urdf_path: 'factory_nut_m20_loose'
+        width_min: 0.030
+        width_max: 0.03464102
+        height: 0.016
+        flat_length: 0.01732051
+    bolt_m20_loose:
+        urdf_path: 'factory_bolt_m20_loose'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045
+    thread_pitch: 0.0025
+
+#gears  齿轮
+gears_loose:
+    gears_small:
+        urdf_path: 'factory_gear_small'
+        width_min: 0.030
+        width_max: 0.03464102
+        height: 0.016   #可能表示设备在竖直方向上的尺寸。
+        flat_length: 0.01732051  #可能表示设备在水平方向上的尺寸。
+    # gears_medium:
+    #     urdf_path: 'factory_gear_medium'
+    #     width: 0.020
+    #     head_height: 0.020
+    #     shank_length: 0.045
+    # gears_large:
+    #     urdf_path: 'factory_gear_large'
+    #     width: 0.020
+    #     head_height: 0.020
+    #     shank_length: 0.045
+    gears_base:
+        urdf_path: 'factory_gear_base_loose'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045    
+    thread_pitch: 0.0025  #螺距
+
+# gear_base_height: 0.005  # height of base plate
+# gear_height: 0.020  # height of gears
+
+# #  插口任务
+# round_peg_hole_16mm_loose:
+#     round_peg_16mm_loose:
+#         urdf_path: 'factory_round_peg_16mm_loose'
+#         diameter: 0.015983
+#         length: 0.050
+#         density: 8000.0
+#         friction: 0.5
+#     round_hole_16mm:
+#         urdf_path: 'factory_round_hole_16mm'
+#         diameter: 0.0165
+#         height: 0.0089916
+#         density: 8000.0
+#         friction: 0.5
+
+
+#外加的螺柱螺母
+# Hexagon_nut_M08
+Hexagon_nut_M08:
+    Hexagon_nut:
+        urdf_path: 'Hexagon_nut_M08'
+        width_min: 0.013
+        width_max: 0.01438
+        height: 0.0065
+        flat_length: 0.01732051
+    bolt_m20_loose:
+        urdf_path: 'factory_bolt_m20_loose'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045
+    thread_pitch: 0.0025
+
+
+
+nut_bolt_M6:
+    nut_M6:
+        urdf_path: 'T-NUT-M6'
+        width_min: 0.030
+        width_max: 0.03464102
+        height: 0.016
+        flat_length: 0.01732051
+    bolt_M6X16:
+        urdf_path: 'T_BOLT_M6X16'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045
+    thread_pitch: 0.0025
+
+nut_bolt_M8:
+    nut_M8:
+        urdf_path: 'T-NUT-M8'
+        width_min: 0.024
+        width_max: 0.02771281
+        height: 0.013
+        flat_length: 0.01385641
+    bolt_M8X25:
+    # bolt_m20_loose:
+        urdf_path: 'T_BOLT_M8X25'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045
+    thread_pitch: 0.0025
+    #     urdf_path: 'T_BOLT_M8X25'
+    #     width: 0.020
+    #     head_height: 0.020
+    #     shank_length: 0.045
+    # thread_pitch: 0.0025
+        
+
+round_peg_hole_4mm_tight:
+    round_peg_4mm_tight:
+        urdf_path: 'factory_round_peg_4mm_tight'
+        diameter: 0.003996
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    round_hole_4mm:
+        urdf_path: 'factory_round_hole_4mm'
+        diameter: 0.0041
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+round_peg_hole_4mm_loose:
+    round_peg_4mm_loose:
+        urdf_path: 'factory_round_peg_4mm_loose'
+        diameter: 0.003988
+        length: 0.050
+        density: 8000.0 
+        friction: 0.5
+    round_hole_4mm:
+        urdf_path: 'factory_round_hole_4mm'
+        diameter: 0.0041
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+round_peg_hole_8mm_tight:
+    round_peg_8mm_tight:
+        urdf_path: 'factory_round_peg_8mm_tight'
+        diameter: 0.007995
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    round_hole_8mm:
+        urdf_path: 'factory_round_hole_8mm'
+        diameter: 0.0081
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+ #shiyan
+round_peg_hole_8mm_loose:
+    round_hole_8mm:
+        urdf_path: 'factory_round_hole_8mm'
+        width_min: 0.0081
+        width_max: 0.0080829
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+    round_peg_8mm_loose:
+        urdf_path: 'factory_round_peg_8mm_loose'
+        width: 0.007986
+        shank_length: 0.050
+        head_height: 0.0
+        density: 8000.0
+        friction: 0.5
+    thread_pitch: 0.0
+
+round_peg_hole_12mm_tight:
+    round_peg_12mm_tight:
+        urdf_path: 'factory_round_peg_12mm_tight'
+        diameter: 0.011994
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    round_hole_12mm:
+        urdf_path: 'factory_round_hole_12mm'
+        diameter: 0.0122
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+
+round_peg_hole_12mm_loose:
+    round_peg_12mm_loose:
+        urdf_path: 'factory_round_peg_12mm_loose'
+        width_min: 0.015994
+        width_max: 0.015994
+        height: 0.050
+    round_hole_12mm:
+        urdf_path: 'factory_round_hole_12mm'
+        width: 0.0165
+        head_height: 0
+        shank_length: 0.0089916
+    thread_pitch: 0
+    
+# round_peg_hole_12mm_loose:
+#     round_peg_12mm_loose:
+#         urdf_path: 'factory_round_peg_12mm_loose'
+#         diameter: 0.011983
+#         length: 0.050
+#         density: 8000.0
+#         friction: 0.5
+#     round_hole_12mm:
+#         urdf_path: 'factory_round_hole_12mm'
+#         diameter: 0.0122
+#         height: 0.0089916
+#         density: 8000.0
+#         friction: 0.5
+
+round_peg_hole_16mm_tight:
+    round_peg_16mm_tight:
+        urdf_path: 'factory_round_peg_16mm_tight'
+        diameter: 0.015994
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    round_hole_16mm:
+        urdf_path: 'factory_round_hole_16mm'
+        diameter: 0.0165
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+
+
+rectangular_peg_hole_4mm_tight:
+    rectangular_peg_4mm_tight:
+        urdf_path: 'factory_rectangular_peg_4mm_tight'
+        width: 0.004
+        depth: 0.004
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_4mm:
+        urdf_path: 'factory_rectangular_hole_4mm'
+        width: 0.00411
+        depth: 0.00411
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_4mm_loose:
+    rectangular_peg_4mm_loose:
+        urdf_path: 'factory_rectangular_peg_4mm_loose'
+        width: 0.00397
+        depth: 0.00397
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_4mm:
+        urdf_path: 'factory_rectangular_hole_4mm'
+        width: 0.00411
+        depth: 0.00411
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_8mm_tight:
+    rectangular_peg_8mm_tight:
+        urdf_path: 'factory_rectangular_peg_8mm_tight'
+        width: 0.008
+        depth: 0.007
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_8mm:
+        urdf_path: 'factory_rectangular_hole_8mm'
+        width: 0.0081444
+        depth: 0.0071340
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_8mm_loose:
+    rectangular_peg_8mm_loose:
+        urdf_path: 'factory_rectangular_peg_8mm_loose'
+        width: 0.007964
+        depth: 0.006910
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_8mm:
+        urdf_path: 'factory_rectangular_hole_8mm'
+        width: 0.0081444
+        depth: 0.0071340
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_12mm_tight:
+    rectangular_peg_12mm_tight:
+        urdf_path: 'factory_rectangular_peg_12mm_tight'
+        width: 0.012
+        depth: 0.008
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_12mm:
+        urdf_path: 'factory_rectangular_hole_12mm'
+        width: 0.0121778
+        depth: 0.0081374
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_12mm_loose:
+    rectangular_peg_12mm_loose:
+        urdf_path: 'factory_rectangular_peg_12mm_loose'
+        width: 0.011957
+        depth: 0.007910
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_12mm:
+        urdf_path: 'factory_rectangular_hole_12mm'
+        width: 0.0121778
+        depth: 0.0081374
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_16mm_tight:
+    rectangular_peg_16mm_tight:
+        urdf_path: 'factory_rectangular_peg_16mm_tight'
+        width: 0.016
+        depth: 0.010
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_16mm:
+        urdf_path: 'factory_rectangular_hole_16mm'
+        width: 0.0162182
+        depth: 0.0101576
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+rectangular_peg_hole_16mm_loose:
+    rectangular_peg_16mm_loose:
+        urdf_path: 'factory_rectangular_peg_16mm_loose'
+        width: 0.015957
+        depth: 0.009910
+        length: 0.050
+        density: 8000.0
+        friction: 0.5
+    rectangular_hole_16mm:
+        urdf_path: 'factory_rectangular_hole_16mm'
+        width: 0.0162182
+        depth: 0.0101576
+        height: 0.0089916
+        density: 8000.0
+        friction: 0.5
+
+bnc:
+    bnc_plug:
+        urdf_path: 'factory_bnc_plug'
+        density: 8700.0
+        friction: 0.5
+    bnc_socket:
+        urdf_path: 'factory_bnc_socket'
+        density: 7100.0
+        friction: 0.5
+
+dsub:
+    dsub_plug:
+        urdf_path: 'factory_dsub_plug'
+        density: 8000.0
+        friction: 0.5
+    dsub_socket:
+        urdf_path: 'factory_dsub_socket'
+        density: 8000.0
+        friction: 0.5
+
+usb:
+    usb_plug:
+        urdf_path: 'factory_usb_plug'
+        density: 8000.0
+        friction: 0.5
+    usb_socket:
+        urdf_path: 'factory_usb_socket'
+        density: 8000.0
+        friction: 0.5
+
+Hexagonal_head_nut_bolt_m6:
+    nut_M6:
+        urdf_path: 'Hexagonal_head_nuts_m6' #'factory_gear_small' #  'Hexagonal_head_nuts_m6'
+        width_min: 0.010 #0.030
+        width_max: 0.01105 #0.03464102
+        height: 0.005
+        flat_length: 0.01732051
+    bolt_m8_loose:
+        urdf_path: 'factory_bolt_m8_loose'
+        width: 0.008
+        head_height: 0.008
+        shank_length: 0.018
+    thread_pitch: 0.00125
+    # bolt_M6X16:
+    #     urdf_path: 'T_BOLT_M6X16'
+    #     width: 0.020
+    #     head_height: 0.020
+    #     shank_length: 0.045
+    # thread_pitch: 0.0025
+
+
+factory_usb:
+    factory_usb_plug:
+        urdf_path: 'factory_usb_plug'
+        width_min: 0.030
+        width_max: 0.03464102
+        height: 0.005
+        flat_length: 0.01732051
+    factory_usb_socket:
+        urdf_path: 'factory_usb_socket'
+        width: 0.020
+        head_height: 0.020
+        shank_length: 0.045
+    thread_pitch: 0.0025
+
+

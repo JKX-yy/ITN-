@@ -1,0 +1,10 @@
+is_transfor: false
+reward:
+- 9.293045043945312
+success_rate:
+- 0.0
+target_task_description:
+- There is an M12 nut on the table and the goal of Frank's robotic arm is to first
+  approach the M12 nut from and then lift the M12 nut vertically from the table to
+  a position where the height of the nut is the height of the top of the bolt, keeping
+  the nut xy-axis coordinates constant.

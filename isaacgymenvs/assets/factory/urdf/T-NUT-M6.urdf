@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot name="T-NUT-M6">
+  <link name="T-NUT-M6">
+    <visual>
+      <origin xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="../mesh/factory_nut_bolt/T-NUT-M6.obj" scale="0.005 0.005 0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="../mesh/factory_nut_bolt/T-NUT-M6.obj" scale="0.005 0.005 0.005"/>
+      </geometry>
+      <sdf resolution="256"/>
+    </collision>
+  </link>
+</robot>

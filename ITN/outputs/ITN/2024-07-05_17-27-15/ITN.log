@@ -1,0 +1,10 @@
+[2024-07-05 17:27:15,198][root][INFO] - Workspace: /home/jkx/桌面/project/ITN/ITN/outputs/ITN/2024-07-05_17-27-15
+[2024-07-05 17:27:15,198][root][INFO] - Project Root: /home/jkx/桌面/project/ITN/ITN
+[2024-07-05 17:27:15,198][root][INFO] - Using LLM: gpt-4-0613
+[2024-07-05 17:27:15,198][root][INFO] - Task: FactoryTaskNutBoltPickPlace
+[2024-07-05 17:27:15,198][root][INFO] - Task description: There is an M12 nut on the table, and the goal of Frank's robotic arm is to first pick up the M12 nut from the table and raise the nut to the point where the height from the table is the height of the bolt, then carry the nut close to the top of the M12 bolt on the table, and finally place the nut on top of the bolt.
+[2024-07-05 17:27:15,268][root][INFO] - Iteration 0: Generating 4 samples with gpt-4-0613
+[2024-07-05 17:27:15,543][root][INFO] - Attempt 1 failed with error: The server is overloaded or not ready yet.
+[2024-07-05 17:27:16,605][root][INFO] - Attempt 2 failed with error: The server is overloaded or not ready yet.
+[2024-07-05 17:27:17,667][root][INFO] - Attempt 3 failed with error: The server is overloaded or not ready yet.
+[2024-07-05 17:27:18,729][root][INFO] - Attempt 4 failed with error: The server is overloaded or not ready yet.

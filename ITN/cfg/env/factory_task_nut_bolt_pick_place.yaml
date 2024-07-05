@@ -1,0 +1,9 @@
+task: FactoryTaskNutBoltPickPlace
+env_name: factory_task_nut_bolt_pick_place
+description:  There is an M12 nut on the table, and the goal of Frank's robotic arm is to first pick up the M12 nut from the table and raise the nut to the point where the height from the table is the height of the bolt, then carry the nut close to the top of the M12 bolt on the table, and finally place the nut on top of the bolt. 
+action_seq:
+- pick
+- lift
+- carry
+- place
+

@@ -1,0 +1,8 @@
+task: FactoryTaskPegHoleInsertion
+env_name: factory_task_peg_hole_insertion
+description:  A round peg and a round hole are placed on the table, and the goal of the Frankenstein robot is to pick up the peg from the table, lift the peg to a position where the height from the table is equal to the height of the hole, then carry the peg to the top of the round hole on the table, and finally insert it into the hole. #A round peg and a round hole are placed on the table, and the goal of Frank's robot is to hold the peg from the table, lift the round peg and move it over the round hole, and then insert the peg into the round hole.
+action_seq:
+- pick
+- lift
+- carry
+- insert

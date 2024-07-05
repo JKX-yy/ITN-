@@ -1,0 +1,1 @@
+The weight terms for the different subtasks of the different orders of the current iteration are: {curent_adapt}, and the maximum reward value for each stage under the current weight is {curent_eposubtask_maxrew}. The weight term for the past few iterations is {past_adapt}, which corresponds to a maximum reward value per phase of {past_eposubtask_maxrew}

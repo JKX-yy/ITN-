@@ -1,0 +1,2 @@
+The current weight term is: {adapt_w}, the weight term for each past moment is {past_adapt}, the reward for each past moment is: {past_rewards}, and the cumulative past rewards are: {add_reward}.
+Adjust the task weights {adapt_w} based on the inputs to maximize the cumulative rewards and return the new weight values, no need to return the code and description, just the new weights

@@ -1,0 +1,41 @@
+@torch.jit.script
+def compute_reward(fingertip_midpoint_pos: Tensor, nut_pos: Tensor, bolt_tip_pos: Tensor) -> Tuple[Tensor, Dict[str, Tensor]]:
+    
+    bolt_bottom_pos = bolt_tip_pos.clone()
+    bolt_bottom_pos[:, 2] = bolt_tip_pos[:, 2] - 0.4
+
+    # Adjusted temperature parameters for reward transformations
+    temp_pick = torch.tensor(0.1)  # Increased to make initial progress more rewarding
+    temp_lift = torch.tensor(0.2)  # Slightly adjusted to introduce more variability
+    temp_carry = torch.tensor(0.3)  # Kept the same, as focus is on scaling the reward
+    temp_place = torch.tensor(0.4)  # Kept the same
+
+    # Calculate distances
+    dist_fingertip_to_nut = torch.norm(fingertip_midpoint_pos - nut_pos, p=2, dim=-1)
+    dist_nut_lifted = nut_pos[..., 2] - bolt_tip_pos[..., 2]  # Height difference between nut and bolt tip
+    dist_nut_to_bolt_tip = torch.norm(nut_pos - bolt_tip_pos, p=2, dim=-1)
+
+    # Adjusted rewards for each stage of the task with new scaling
+    reward_pick = -dist_fingertip_to_nut * 2  # Scale up to increase sensitivity
+    reward_lift = -torch.abs(dist_nut_lifted)  # Slightly more challenging
+    reward_carry = -(dist_nut_to_bolt_tip * 2)  # Scale up to make this step more rewarding
+    reward_place = -torch.abs(dist_nut_to_bolt_tip - torch.tensor(0.0)) * 2  # Increase reward
+
+    # Transform rewards with exponential function to normalize and control scale
+    reward_pick_exp = torch.exp(reward_pick / temp_pick)
+    reward_lift_exp = torch.exp(reward_lift / temp_lift)
+    reward_carry_exp = torch.exp(reward_carry / temp_carry)
+    reward_place_exp = torch.exp(reward_place / temp_place)
+
+    # Combine rewards for total reward, ensuring sequential completion by multiplication
+    total_reward = reward_pick_exp * reward_lift_exp * reward_carry_exp * reward_place_exp
+
+    # Reward components dictionary
+    rewards_dict = {
+        "reward_pick": reward_pick_exp,
+        "reward_lift": reward_lift_exp,
+        "reward_carry": reward_carry_exp,
+        "reward_place": reward_place_exp
+    }
+
+    return total_reward, rewards_dict

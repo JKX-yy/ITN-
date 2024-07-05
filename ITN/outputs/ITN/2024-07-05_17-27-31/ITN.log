@@ -1,0 +1,8 @@
+[2024-07-05 17:27:31,340][root][INFO] - Workspace: /home/jkx/桌面/project/ITN/ITN/outputs/ITN/2024-07-05_17-27-31
+[2024-07-05 17:27:31,341][root][INFO] - Project Root: /home/jkx/桌面/project/ITN/ITN
+[2024-07-05 17:27:31,341][root][INFO] - Using LLM: gpt-3.5-turbo
+[2024-07-05 17:27:31,341][root][INFO] - Task: FactoryTaskNutBoltPickPlace
+[2024-07-05 17:27:31,341][root][INFO] - Task description: There is an M12 nut on the table, and the goal of Frank's robotic arm is to first pick up the M12 nut from the table and raise the nut to the point where the height from the table is the height of the bolt, then carry the nut close to the top of the M12 bolt on the table, and finally place the nut on top of the bolt.
+[2024-07-05 17:27:31,374][root][INFO] - Iteration 0: Generating 4 samples with gpt-3.5-turbo
+[2024-07-05 17:28:39,821][openai][INFO] - error_code=service_err error_message=当前分组上游负载已饱和，请稍后再试 error_param= error_type=new_api_error message='OpenAI API error received' stream_error=False
+[2024-07-05 17:28:39,822][root][INFO] - Attempt 1 failed with error: 当前分组上游负载已饱和，请稍后再试

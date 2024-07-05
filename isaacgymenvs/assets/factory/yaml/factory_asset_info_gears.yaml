@@ -1,0 +1,26 @@
+gear_base_height: 0.005  # height of base plate
+gear_height: 0.020  # height of gears
+gear_base_len: 0.12
+gear_base_w: 0.06
+#gears_base
+gear_base_bolt_height: 0.02
+gear_base_bolt_inder_d: 0.008
+gear_base_bolt_outder_d: 0.01
+distence_l_m: 0.04
+diatence_m_s: 0.02
+
+#gears_large
+gear_large_inder_d: 0.01
+gear_large_outder_r: 0.025  #d=0.06
+gear_large_x: -0.03
+
+#gears_medium
+gear_medium_inder_d: 0.01
+gear_medium_outder_r: 0.015 #  d= 0.04
+gear_medium_x: 0.02
+
+#gears_SMALL
+gear_small_inder_d: 0.01
+gear_small_outder_r: 0.005 #  d= 0.04
+gear_small_x: 0.05
+

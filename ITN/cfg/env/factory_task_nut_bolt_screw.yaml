@@ -1,0 +1,3 @@
+task: FactoryTaskNutBoltScrew
+env_name: factory_task_nut_bolt_screw
+description: Thread the nut onto the bottom of the bolt

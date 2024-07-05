@@ -1,0 +1,26 @@
+temperature: 1.0
+suffix: GPT
+model: gpt-4-0613
+gpt_key: sk-mdIi7O0RoLWufmEq02C4B5E7699f4b07Bc8d5cFe0cA9E3B2
+gpt_url: https://gtapi.xiaoerchaoren.com:8932/v1
+iteration: 10
+sample: 4
+max_iterations: 1024
+num_eval: 5
+capture_video: false
+use_wandb: false
+wandb_username: ''
+wandb_project: ''
+env:
+  task: FactoryTaskNutBoltPickPlace
+  env_name: factory_task_nut_bolt_pick_place
+  description: There is an M12 nut on the table, and the goal of Frank's robotic arm
+    is to first pick up the M12 nut from the table and raise the nut to the point
+    where the height from the table is the height of the bolt, then carry the nut
+    close to the top of the M12 bolt on the table, and finally place the nut on top
+    of the bolt.
+  action_seq:
+  - pick
+  - lift
+  - carry
+  - place

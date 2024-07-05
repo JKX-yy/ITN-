@@ -1,0 +1,9 @@
+description: This class corresponds to the SwingCup task. This environment involves
+  two hands and a dual handle  cup, we need to use two hands to hold and swing the
+  cup together
+env_name: shadow_hand_swing_cup
+task: ShadowHandSwingCup
+
+# 该类与 SwingCup 任务相对应。该环境涉及
+#   我们需要用两只手握住并摆动双柄杯。
+#   杯

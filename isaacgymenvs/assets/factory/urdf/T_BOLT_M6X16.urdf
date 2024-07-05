@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot name="T_BOLT_M6X16">
+  <link name="T_BOLT_M6X16">
+    <visual>
+    <origin rpy="0 3.14159 0" xyz="0 0 0"/>
+      <!-- <origin xyz="0.0 0.0 0.0"/> -->
+      <geometry>
+        <mesh filename="../mesh/factory_nut_bolt/T_BOLT_M6X16.obj" scale="0.005 0.005 0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="../mesh/factory_nut_bolt/T_BOLT_M6X16.obj" scale="0.005 0.005 0.005"/>
+      </geometry>
+      <sdf resolution="512"/>
+    </collision>
+  </link>
+</robot>
+<!-- <?xml version="1.0"?>
+<robot name="T_BOLT_M6X16">
+    <link name="T_BOLT_M6X16">
+        <visual>
+            <geometry>
+                <mesh filename="../mesh/factory_nut_bolt/T_BOLT_M6X16.obj"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="../mesh/factory_nut_bolt/T_BOLT_M6X16.obj"/>
+            </geometry>
+            <sdf resolution="512"/>
+        </collision>
+    </link>
+</robot> -->

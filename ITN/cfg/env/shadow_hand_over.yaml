@@ -1,0 +1,18 @@
+description: This class corresponds to the HandOver task. This environment consists
+  of two shadow hands with palms facing up, opposite each other, and an object that
+  needs to be passed. In the beginning,  the object will fall randomly in the area
+  of the shadow hand on the right side. Then the hand  holds the object and passes
+  the object to the other hand. Note that the base of the hand is  fixed. More importantly,
+  the hand which holds the object initially can not directly touch the  target, nor
+  can it directly roll the object to the other hand, so the object must be thrown
+  up  and stays in the air in the process
+env_name: shadow_hand_over
+task: ShadowHandOver
+# 该类与 "HandOver "任务相对应。该环境包括
+#   两只手掌朝上、相对的影子手，以及一个需要传递的物体。
+#   需要传递的物体。一开始，物体会随机落在
+#   的区域。然后，拿着物体的手将物体传给另一只手。
+#   将物体传给另一只手。请注意，手的底部是固定的。更重要的是
+#   最初握住物体的手不能直接接触目标，也不能直接将物体滚动到另一只手。
+#   也不能直接将物体滚到另一只手上，因此物体必须被抛起并在空中停留。
+#   并在此过程中停留在空中

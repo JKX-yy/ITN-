@@ -1,0 +1,10 @@
+description: This class corresponds to the LiftUnderarm task. This environment requires
+  grasping the pot handle  with two hands and lifting the pot to the designated position.
+  This environment is designed to  simulate the scene of lift in daily life and is
+  a practical skill.
+env_name: shadow_hand_lift_underarm
+task: ShadowHandLiftUnderarm
+# 该类与 LiftUnderarm 任务相对应。该环境要求
+#   双手抓住锅柄，将锅抬到指定位置。
+#   该环境旨在模拟日常生活中的提壶场景，是一项实用技能。
+#   实用技能。

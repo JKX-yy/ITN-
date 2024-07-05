@@ -1,0 +1,9 @@
+is_transfor: false
+reward:
+- 0.7726036310195923
+success_rate:
+- 0.0078125
+target_task_description:
+- A round peg and a round hole are placed on the table, and the goal of Frank's robot
+  is to hold the peg from the table, lift the round peg and move it over the round
+  hole, and then insert the peg into the round hole.

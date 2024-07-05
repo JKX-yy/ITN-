@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="Hexagonal_head_nuts_m6">
+    <link name="Hexagonal_head_nuts_m6">
+        <visual>
+            <!-- <origin xyz="0 0 0.5" rpy="0 0 0"/> -->
+            <origin xyz='0 0 0' rpy='0 1 0' />
+            <geometry>
+                <mesh filename="../mesh/factory_nut_bolt/Hexagonal_head_nuts_m6.obj" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="../mesh/factory_nut_bolt/Hexagonal_head_nuts_m6.obj" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <sdf resolution="512"/>
+        </collision>
+    </link>
+</robot>
+
