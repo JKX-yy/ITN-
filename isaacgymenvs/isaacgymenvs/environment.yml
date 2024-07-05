@@ -275,4 +275,4 @@ dependencies:
       - werkzeug==3.0.1
       - yarl==1.9.2
       - zipp==3.17.0
-prefix: /home/jkx/anaconda3/envs/ITN
+# prefix: /home/jkx/anaconda3/envs/ITN
