@@ -65,7 +65,7 @@ num_subscenes: 4 # Splits the simulation into N physics scenes and runs each one
 # test - if set, run policy in inference mode (requires setting checkpoint to load)
 test: False #True 
 # used to set checkpoint path
-checkpoint: ''  #'/home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickGPT_ep_1024.pth' #'/home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickPlacem20GPT_ep_1024.pth' #'isaacgymenvs/isaacgymenvs/outputs/train/2024-04-20_22-05-38/runs/FactoryTaskNutBoltPickPlaceGPT-2024-04-20_22-05-39/nn/last_FactoryTaskNutBoltPickPlacem20GPT_ep_1024.pth'  #'/home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickPlaceGPT_ep.pth'
+checkpoint: ''  
 # set sigma when restoring network
 sigma: ''
 # set to True to use multi-gpu horovod training

@@ -181,600 +181,7 @@ class NetworkBuilder:
 
             raise ValueError('value type is not "default", "legacy" or "two_hot_encoded"')
 
-# # NO_TRANSFER
-# class A2CBuilder(NetworkBuilder):
-#     def __init__(self, **kwargs):
-#         NetworkBuilder.__init__(self)
-
-#     def load(self, params):
-#         self.params = params
-
-#     class Network(NetworkBuilder.BaseNetwork):
-#         def __init__(self, params, **kwargs):  
-#             actions_num = kwargs.pop('actions_num')  #12
-#             input_shape = kwargs.pop('input_shape')  #20
-#             self.value_size = kwargs.pop('value_size', 1) #1
-#             self.num_seqs = num_seqs = kwargs.pop('num_seqs', 1)  #128
-#             num=params['transfor'][3]
-#             num=len(num)
-#             self.num_column=num+1  #网络列数
-#             if self.num_column!=1:
-#                 tasks_sim=torch.cat((params['transfor'][0].squeeze(0), torch.Tensor([0.9])), 0)
-#             #随机初始化权重
-#             # adapt_w=torch.rand(self.num_column)
-#             # self.adapt_w=adapt_w/(adapt_w.sum())
-#                 self.adapt_w=tasks_sim/(tasks_sim.sum())
-#             else:
-#                 adapt_w=torch.rand(self.num_column)
-#                 self.adapt_w=adapt_w/(adapt_w.sum())
-#             NetworkBuilder.BaseNetwork.__init__(self)
-#             # source 获取需要初始化的参数  （冻结source,优化target）
-#             source_params=[]
-#             source_dict=[]
-#             source_dict_=[]
-#             if self.num_column!=1:
-#                 source_path_list=params['transfor'][3]
-#                 #加载完整模型
-#                 for i in range(len(source_path_list)):
-#                     source_params.append(torch.load(source_path_list[i]))
-#                     for key,value in source_params[i]['model'].items():
-#                         source_dict.append(value)
-#                     source_dict_.append(source_dict)
-#                     source_dict=[]
-                            
-#             self.load(params)
-#             for i in range(self.num_column):
-#                 setattr(self, f"actor_cnn{i}", nn.Sequential())
-#                 setattr(self, f"critic_cnn{i}", nn.Sequential())
-#                 setattr(self, f"actor_mlp{i}", nn.Sequential())
-#                 setattr(self, f"critic_mlp{i}", nn.Sequential())
-            
-
-            
-#             if self.has_cnn:  #false  跳过
-#                 if self.permute_input:
-#                     input_shape = torch_ext.shape_whc_to_cwh(input_shape)
-#                 cnn_args = {
-#                     'ctype' : self.cnn['type'], 
-#                     'input_shape' : input_shape, 
-#                     'convs' :self.cnn['convs'], 
-#                     'activation' : self.cnn['activation'], 
-#                     'norm_func_name' : self.normalization,
-#                 }
-#                 self.actor_cnn = self._build_conv(**cnn_args)
-
-#                 if self.separate:
-#                     self.critic_cnn = self._build_conv( **cnn_args)
-#             #input_size =num_envobs
-#             mlp_input_shape = self._calc_input_size(input_shape, self.actor_cnn0)  #input_shape=20    mlp_input_shape=20
-
-#             in_mlp_shape = mlp_input_shape  #20  #<-
-#             if len(self.units) == 0:    # false
-#                 out_size = mlp_input_shape
-#             else:
-#                 out_size = self.units[-1]   #<-  64 不需要改
-
-#             if self.has_rnn:   # false
-#                 if not self.is_rnn_before_mlp:
-#                     rnn_in_size = out_size
-#                     out_size = self.rnn_units
-#                     if self.rnn_concat_input:
-#                         rnn_in_size += in_mlp_shape
-#                 else:
-#                     rnn_in_size =  in_mlp_shape
-#                     in_mlp_shape = self.rnn_units
-
-#                 if self.separate:
-#                     self.a_rnn = self._build_rnn(self.rnn_name, rnn_in_size, self.rnn_units, self.rnn_layers)
-#                     self.c_rnn = self._build_rnn(self.rnn_name, rnn_in_size, self.rnn_units, self.rnn_layers)
-#                     if self.rnn_ln:
-#                         self.a_layer_norm = torch.nn.LayerNorm(self.rnn_units)
-#                         self.c_layer_norm = torch.nn.LayerNorm(self.rnn_units)
-#                 else:
-#                     self.rnn = self._build_rnn(self.rnn_name, rnn_in_size, self.rnn_units, self.rnn_layers)
-#                     if self.rnn_ln:
-#                         self.layer_norm = torch.nn.LayerNorm(self.rnn_units)
-
-#             mlp_args = {
-#                 'input_size' : in_mlp_shape,   #<-20 
-#                 'units' : self.units,   #[256,128,64]
-#                 'activation' : self.activation,  #elu
-#                 'norm_func_name' : self.normalization, #none
-#                 'dense_func' : torch.nn.Linear,
-#                 'd2rl' : self.is_d2rl,  #false
-#                 'norm_only_first_layer' : self.norm_only_first_layer #false
-#             }
-#             #setup_actor_mlp 
-#             for i in range(self.num_column):
-#                 setattr(self, f"actor_mlp{i}", self._build_mlp(**mlp_args))
-#                 # if self.num_column!=1:
-#                 #     self.actor_
-#             # self.actor_mlp = self._build_mlp(**mlp_args)  #建立mlp  #<-  * [256,128,64]
-#             if self.separate:  #false
-#                 self.critic_mlp = self._build_mlp(**mlp_args)
-            
-#             #setup_value
-#             for i in range(self.num_column):
-#                 setattr(self, f"value{i}", self._build_value_layer(out_size, self.value_size))
-#                 setattr(self, f"value_act{i}", self.activations_factory.create(self.value_activation))
-#             # self.value = self._build_value_layer(out_size, self.value_size) #建立V层  *修改
-#             # self.value_act = self.activations_factory.create(self.value_activation) # none *
-
-#             if self.is_discrete: #false
-#                 self.logits = torch.nn.Linear(out_size, actions_num)
-#             '''
-#                 for multidiscrete actions num is a tuple
-#             '''
-#             if self.is_multi_discrete:  #false
-#                 self.logits = torch.nn.ModuleList([torch.nn.Linear(out_size, num) for num in actions_num])
-#             if self.is_continuous:  #<- 
-#                 for i in range(self.num_column):
-#                     setattr(self, f"mu{i}", torch.nn.Linear(out_size, actions_num))
-#                     setattr(self, f"mu_act{i}", self.activations_factory.create(self.space_config['mu_activation']))
-#                     mu_init= self.init_factory.create(**self.space_config['mu_init'])  # Identity
-#                     setattr(self, f"sigma_act{i}",self.activations_factory.create(self.space_config['sigma_activation']))
-#                     sigma_init = self.init_factory.create(**self.space_config['sigma_init'])
-#                 for i in range(self.num_column):
-#                     setattr(self,f'adapt_weight{i}',torch.nn.Linear(actions_num,self.value_size))  #128 12 -> 128 1   [1]
-#                 # self.mu = torch.nn.Linear(out_size, actions_num)  #建立mu层 *
-#                 # self.mu_act = self.activations_factory.create(self.space_config['mu_activation'])  #  *
-#                 # mu_init = self.init_factory.create(**self.space_config['mu_init'])  # Identity
-#                 # self.sigma_act = self.activations_factory.create(self.space_config['sigma_activation'])   #建立mu层  # Identity
-#                 # sigma_init = self.init_factory.create(**self.space_config['sigma_init'])
-
-#                 if self.fixed_sigma: #<-[12] 12个0
-#                     for i in range(self.num_column):
-#                         setattr(self, f"sigma{i}",nn.Parameter(torch.zeros(actions_num, requires_grad=True, dtype=torch.float32), requires_grad=True))
-#                     # self.sigma = nn.Parameter(torch.zeros(actions_num, requires_grad=True, dtype=torch.float32), requires_grad=True)
-#                 else: #false
-#                     self.sigma = torch.nn.Linear(out_size, actions_num)
-                
-                    
-#             for i in range(self.num_column):
-#                 mlp_init = self.init_factory.create(**self.initializer)  #Identity
-#             # mlp_init = self.init_factory.create(**self.initializer)  #Identity
-#             if self.has_cnn:  #false
-#                 cnn_init = self.init_factory.create(**self.cnn['initializer'])
-#             #if is_transfor=Falsec 不进行迁移
-#     #注释if
-#             if self.num_column==1:
-#                 for m in self.modules():         # <-  PyTorch复杂模型初始化权重 只进行了一个模型的初始化
-#                     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Conv1d):# false  isinstance() 函数来判断一个对象是否是一个已知的类型，类似 type()。
-#                         cnn_init(m.weight)
-#                         if getattr(m, "bias", None) is not None:
-#                             torch.nn.init.zeros_(m.bias)
-#                     if isinstance(m, nn.Linear):
-#                         mlp_init(m.weight)  #不知道是否四个都会init
-#                         if getattr(m, "bias", None) is not None:
-#                             torch.nn.init.zeros_(m.bias)   
- 
-#             else:  #if is_transfor=true 进行迁移
-#                 i=0
-#                 n=[]
-#                 num_m=0
-#                 for m in self.modules():         # <-  PyTorch复杂模型初始化权重 只进行了一个模型的初始化
-#                     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Conv1d):# false  isinstance() 函数来判断一个对象是否是一个已知的类型，类似 type()。
-#                         cnn_init(m.weight)
-#                         if getattr(m, "bias", None) is not None:
-#                             torch.nn.init.zeros_(m.bias)
-#                     if isinstance(m, nn.Linear):
-#                         n.append(num_m//3)
-#                         #赋值source_mlp
-#                         if len(n) <= (self.num_column-1)*3:  #mlp 先赋值source
-#                             m.weight=nn.Parameter(source_dict_[n[-1]][i*2+7])
-#                             m.weight.requires_grad=False
-#                             # mlp_init(m.weight)  #不知道是否四个都会init
-#                             if getattr(m, "bias", None) is not None:
-#                                 # torch.nn.init.zeros_(m.bias)
-#                                 m.bias=nn.Parameter(source_dict_[n[-1]][i*2+8])
-#                                 m.bias.requires_grad=False
-#                         #赋值base_mlp
-#                         if len(n) >= (self.num_column-1)*3+1 and len(n)<=self.num_column*3:  #base_mlp
-#                             mlp_init(m.weight)  #不知道是否四个都会init
-#                             if getattr(m, "bias", None) is not None:
-#                                 torch.nn.init.zeros_(m.bias) 
-#                         #赋值V
-#                         if len(n)>self.num_column*3 and len(n)<=self.num_column*4: #赋值初始化mu value
-#                         #赋值source_v
-#                             if len(n)<self.num_column*3+self.num_column:
-#                                 m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*3)-1][13])
-#                                 m.weight.requires_grad=False
-#                                 if getattr(m, "bias", None) is not None:
-#                                     m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*3)-1][14])
-#                                     m.bias.requires_grad=False
-#                         #赋值base_v
-#                             if len(n)==self.num_column*3+self.num_column:
-#                                 mlp_init(m.weight)  #不知道是否四个都会init
-#                                 if getattr(m, "bias", None) is not None:
-#                                     torch.nn.init.zeros_(m.bias)
-#                         #赋值MU
-#                         if len(n)>self.num_column*4:
-#                         #赋值source_mu
-#                             if len(n)<self.num_column*4+self.num_column:
-#                                 m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-1][15])
-#                                 m.weight.requires_grad=False
-#                                 if getattr(m, "bias", None) is not None:
-#                                     m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-1][16])
-#                                     m.bias.requires_grad=False
-#                         #赋值base_vmu
-#                             elif len(n)==self.num_column*4+self.num_column:
-#                                 mlp_init(m.weight)  #不知道是否四个都会init
-#                                 if getattr(m, "bias", None) is not None:
-#                                     torch.nn.init.zeros_(m.bias)
-                                    
-#                             else:
-#                                 mlp_init(m.weight)  #不知道是否四个都会init
-#                                 if getattr(m, "bias", None) is not None:
-#                                     torch.nn.init.zeros_(m.bias)
-#                         i+=1
-#                         if i%3==0:
-#                             i=0
-#                         num_m+=1
-            
-#                 # self.model.running_mean_std
-#                 # checkpoint = torch_ext.load_checkpoint(params['transfor'][3][0])
-#                 # self.model.load_state_dict(checkpoint['model'])
-#                 # if self.normalize_input and 'running_mean_std' in checkpoint:
-#                 # # nn.Parameter(source_dict_[n[-1]][i*2+7])
-#                 # self.model.running_mean_std.load_state_dict(checkpoint['running_mean_std'])
-                
-#             if self.is_continuous:  # <- # 得看module的结果进行修改
-#                 # for i in range(self.num_column):
-#                 #     mu_init(getattr(self, f"mu{i}").weight)  #[12,64]
-#                 if self.fixed_sigma: #<-
-#                     # for i in range(self.num_column):
-#                     #     sigma_init(getattr(self, f"sigma{i}"))  #[12,64]
-#                     for i in range(self.num_column):
-#                         #赋值source_sigma
-#                         if i <self.num_column-1:
-#                             # getattr(self, f"sigma{i}").T=source_dict_[i][6]
-#                             # getattr(self, f"sigma{i}").data=source_dict_[i][6]
-#                             setattr(self, f"sigma{i}",nn.Parameter(source_dict_[i][6], requires_grad=False))
-#                         #赋值base_sigma
-#                         if i == self.num_column-1:       
-#                             sigma_init(getattr(self, f"sigma{i}"))  #[12,64]
-#                     # sigma_init(self.sigma)  #[12]
-#                 else:  #flase
-#                     for i in range(self.num_column):
-#                         sigma_init(getattr(self, f"sigma{i}").weight)  #[12,64]
-#                     # sigma_init(self.sigma.weight)  
-#             #到此网络建好
-        
-#         def forward(self, obs_dict):
-#             if obs_dict.get('return_w')!=None:
-#                 if len(obs_dict['return_w'])!=0:
-#                     self.adapt_w=torch.tensor(obs_dict['return_w'])
-#             adapt_weight_out=[]
-#             Linear1_out=[]
-#             Linear2_out=[]
-#             Linear3_out=[]
-#             out=[]
-#             mu=[]
-#             sigma=[]
-#             value=[]
-#             obs = obs_dict['obs']#[128,20]
-#             states = obs_dict.get('rnn_states', None)#获取当前state  None
-#             seq_length = obs_dict.get('seq_length', 1) #1
-#             dones = obs_dict.get('dones', None)         #none
-#             bptt_len = obs_dict.get('bptt_len', 0)     #0
-#             if self.has_cnn:  #false
-#                 # for obs shape 4
-#                 # input expected shape (B, W, H, C)
-#                 # convert to (B, C, W, H)
-#                 if self.permute_input and len(obs.shape) == 4:
-#                     obs = obs.permute((0, 3, 1, 2))
-
-#             if self.separate:  # false
-#                 a_out = c_out = obs
-#                 a_out = self.actor_cnn(a_out)
-#                 a_out = a_out.contiguous().view(a_out.size(0), -1)
-
-#                 c_out = self.critic_cnn(c_out)
-#                 c_out = c_out.contiguous().view(c_out.size(0), -1)                    
-
-#                 if self.has_rnn:
-#                     if not self.is_rnn_before_mlp:
-#                         a_out_in = a_out
-#                         c_out_in = c_out
-#                         a_out = self.actor_mlp(a_out_in)
-#                         c_out = self.critic_mlp(c_out_in)
-
-#                         if self.rnn_concat_input:
-#                             a_out = torch.cat([a_out, a_out_in], dim=1)
-#                             c_out = torch.cat([c_out, c_out_in], dim=1)
-
-#                     batch_size = a_out.size()[0]
-#                     num_seqs = batch_size // seq_length
-#                     a_out = a_out.reshape(num_seqs, seq_length, -1)
-#                     c_out = c_out.reshape(num_seqs, seq_length, -1)
-
-#                     a_out = a_out.transpose(0,1)
-#                     c_out = c_out.transpose(0,1)
-#                     if dones is not None:
-#                         dones = dones.reshape(num_seqs, seq_length, -1)
-#                         dones = dones.transpose(0,1)
-
-#                     if len(states) == 2:
-#                         a_states = states[0]
-#                         c_states = states[1]
-#                     else:
-#                         a_states = states[:2]
-#                         c_states = states[2:]                        
-#                     a_out, a_states = self.a_rnn(a_out, a_states, dones, bptt_len)
-#                     c_out, c_states = self.c_rnn(c_out, c_states, dones, bptt_len)
-
-#                     a_out = a_out.transpose(0,1)
-#                     c_out = c_out.transpose(0,1)
-#                     a_out = a_out.contiguous().reshape(a_out.size()[0] * a_out.size()[1], -1)
-#                     c_out = c_out.contiguous().reshape(c_out.size()[0] * c_out.size()[1], -1)
-#                     if self.rnn_ln:
-#                         a_out = self.a_layer_norm(a_out)
-#                         c_out = self.c_layer_norm(c_out)
-#                     if type(a_states) is not tuple:
-#                         a_states = (a_states,)
-#                         c_states = (c_states,)
-#                     states = a_states + c_states
-
-#                     if self.is_rnn_before_mlp:
-#                         a_out = self.actor_mlp(a_out)
-#                         c_out = self.critic_mlp(c_out)
-#                 else:
-#                     a_out = self.actor_mlp(a_out)
-#                     c_out = self.critic_mlp(c_out)
-                            
-#                 value = self.value_act(self.value(c_out))
-
-#                 if self.is_discrete:
-#                     logits = self.logits(a_out)
-#                     return logits, value, states
-
-#                 if self.is_multi_discrete:
-#                     logits = [logit(a_out) for logit in self.logits]
-#                     return logits, value, states
-
-#                 if self.is_continuous:
-#                     mu = self.mu_act(self.mu(a_out))
-#                     if self.fixed_sigma:
-#                         sigma = mu * 0.0 + self.sigma_act(self.sigma)
-#                     else:
-#                         sigma = self.sigma_act(self.sigma(a_out))
-
-#                     return mu, sigma, value, states
-#             else:  # <-
-#                 if self.num_column==1:
-#                     for i in range(self.num_column):
-#                         p_out=obs
-#                         p_out=getattr(self, f"actor_cnn{i}")(p_out)
-#                         p_out=p_out.flatten(1)
-#                         out.append(p_out) #  512  41
-#                 else:
-#                     for i in range(self.num_column):
-                        
-#                         p_out=obs[i]
-#                         # p_out=obs
-                        
-#                         p_out=getattr(self, f"actor_cnn{i}")(p_out)
-#                         p_out=p_out.flatten(1)
-#                         out.append(p_out) #[4,128,20]
-
-#                     # if i == (len(self.num_column)-1):
-#                     #     base_actor_cnn=out[i]        
-#                 if self.has_rnn: #false
-#                     out_in = out
-#                     if not self.is_rnn_before_mlp:
-#                         out_in = out
-#                         out = self.actor_mlp(out)
-#                         if self.rnn_concat_input:
-#                             out = torch.cat([out, out_in], dim=1)
-
-#                     batch_size = out.size()[0]
-#                     num_seqs = batch_size // seq_length
-#                     out = out.reshape(num_seqs, seq_length, -1)
-
-#                     if len(states) == 1:
-#                         states = states[0]
-
-#                     out = out.transpose(0, 1)
-#                     if dones is not None:
-#                         dones = dones.reshape(num_seqs, seq_length, -1)
-#                         dones = dones.transpose(0, 1)
-#                     out, states = self.rnn(out, states, dones, bptt_len)
-#                     out = out.transpose(0, 1)
-#                     out = out.contiguous().reshape(out.size()[0] * out.size()[1], -1)
-
-#                     if self.rnn_ln:
-#                         out = self.layer_norm(out)
-#                     if self.is_rnn_before_mlp:
-#                         out = self.actor_mlp(out)
-#                     if type(states) is not tuple:
-#                         states = (states,)
-#                 else:   #<-
-#                     for i in range(self.num_column):
-#                         x=out[i]  #[128,20]
-#                         for j in range(len(getattr(self, f"actor_mlp{i}"))):  #0 1 2 3 4 5
-#                             x = getattr(self, f"actor_mlp{i}")[j](x)  #[128,256]
-#                             if j == 1:
-#                                 Linear1_out.append(x) #[4 128 256 ]
-#                             if j == 3:
-#                                  Linear2_out.append(x)  #[4 128 128 ]
-#                             if j == 5:
-#                                 Linear3_out.append(x) #[4 128 64 ]
-#                     for  i in range(self.num_column):
-#                         out[i] = getattr(self, f"actor_mlp{i}")(out[i]) #128 64  第一个task actor_mlp的总输出
-#                     #base网络
-#                     base_Linear1_out=Linear1_out[self.num_column-1]  #[128,256]
-                    
-#                     #加权后
-#                     base_Linear2_in=torch.full(np.shape(Linear1_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     base_Linear2_out=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     base_Linear3_out=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     base_Linear3_in=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     for i in range(self.num_column):
-#                         w=torch.full(np.shape(Linear1_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                         if i !=self.num_column-1:
-#                             base_Linear2_in+=torch.mul(Linear1_out[i],w)
-#                         else:
-#                             base_Linear2_in+=torch.mul(base_Linear1_out,w)
-#                             # base_Linear2_in+=base_Linear1_out*self.adapt_w[i]
-#                     #重新进行计算  linear2
-#                     base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[2](base_Linear2_in)
-#                     base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[3](base_Linear2_out) #[128,128]
-#                     for i in range(self.num_column):
-#                         w=torch.full(np.shape(Linear2_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                         if i !=self.num_column-1:
-#                             base_Linear3_in+=torch.mul(Linear2_out[i],w)
-#                         else:
-#                             base_Linear3_in+=torch.mul(base_Linear2_out,w)
-#                     #重新进行计算  target  V   MU [128,64]
-#                     base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[4](base_Linear3_in)
-#                     base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[5](base_Linear3_out)
-#                     base_V_mu_in=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     for i in range(self.num_column):
-#                         w=torch.full(np.shape(Linear3_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                         if i !=self.num_column-1:
-#                             base_V_mu_in+=torch.mul(Linear3_out[i],w)
-#                         else:
-#                             base_V_mu_in+=torch.mul(base_Linear3_out,w)
-                    
-#                         # out = self.actor_mlp(out) #128 64 
-#                 for i in range(self.num_column):
-#                     if i != self.num_column-1:
-#                         value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
-#                     else:
-#                         # value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(base_V_mu_in)))
-#                         value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
-                        
-#                     # value = self.value_act(self.value(out))
-
-#                 if self.central_value:#FALSE
-#                     return value, states
-
-#                 if self.is_discrete: #FALSE
-#                     logits = self.logits(out)
-#                     return logits, value, states
-#                 if self.is_multi_discrete: #FALSE
-#                     logits = [logit(out) for logit in self.logits]
-#                     return logits, value, states
-#                 if self.is_continuous:#<-
-#                     for i in range(self.num_column):
-#                         if i != self.num_column-1:
-#                             mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
-#                         else:
-#                             # mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(base_V_mu_in)))
-#                             mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
-                            
-#                         # mu = self.mu_act(self.mu(out))
-#                         adapt_weight_in=getattr(self, f"adapt_weight{i}")(mu[i])
-                        
-#                         adapt_weight_out.append(torch.mean(adapt_weight_in,dim=0))  #[num_clonm,128,1]->[num_clomn,1]
-#                         prob=F.softmax(torch.tensor(adapt_weight_out),dim=0)
-#                     #base_actor_cnn
-#                     if self.fixed_sigma: #<-
-#                         for i in range(self.num_column):
-                            
-#                             sigma.append(getattr(self, f"sigma_act{i}")(getattr(self, f"sigma{i}"))) #[12]
-#                             # sigma = self.sigma_act(self.sigma) #[12]
-#                     else: #false
-#                         sigma = self.sigma_act(self.sigma(out))
-                    
-#                     #根据已经求出的单个网络的V,MU,以及base的V,和MU 计算加权后base的V和MU
-#                     out_mu=torch.full(np.shape(mu[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     out_value=torch.full(np.shape(value[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     out_sigma=torch.full(np.shape(sigma[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                     for i in range(self.num_column):
-#                         w=torch.full(np.shape(mu[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                         w_v=torch.full(np.shape(value[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-#                         w_sigma=torch.full(np.shape(sigma[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                        
-#                         # if i != self.num_column-1:
-#                         out_mu+=torch.mul(mu[i],w)
-#                         out_value+=torch.mul(value[i],w_v)
-#                         #每个维度是否需要加权平均 sigma
-#                         out_sigma+=torch.mul(sigma[i],w_sigma)
-#                     #计划返回只返回target  mu  sigma value states
-#                         # return mu, mu*0 + sigma, value, states
-#                     return out_mu, out_mu*0 + out_sigma, out_value, states,self.num_column,self.adapt_w,mu,sigma,value,prob
-                    
-#         def is_separate_critic(self):
-#             return self.separate
-
-#         def is_rnn(self):
-#             return self.has_rnn
-
-#         def get_default_rnn_state(self):
-#             if not self.has_rnn:
-#                 return None
-#             num_layers = self.rnn_layers
-#             if self.rnn_name == 'identity':
-#                 rnn_units = 1
-#             else:
-#                 rnn_units = self.rnn_units
-#             if self.rnn_name == 'lstm':
-#                 if self.separate:
-#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)), 
-#                             torch.zeros((num_layers, self.num_seqs, rnn_units)),
-#                             torch.zeros((num_layers, self.num_seqs, rnn_units)), 
-#                             torch.zeros((num_layers, self.num_seqs, rnn_units)))
-#                 else:
-#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)), 
-#                             torch.zeros((num_layers, self.num_seqs, rnn_units)))
-#             else:
-#                 if self.separate:
-#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)), 
-#                             torch.zeros((num_layers, self.num_seqs, rnn_units)))
-#                 else:
-#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)),)                
-
-#         def load(self, params):
-#             self.separate = params.get('separate', False)
-#             self.units = params['mlp']['units']
-#             self.activation = params['mlp']['activation']
-#             self.initializer = params['mlp']['initializer']
-#             self.is_d2rl = params['mlp'].get('d2rl', False)
-#             self.norm_only_first_layer = params['mlp'].get('norm_only_first_layer', False)
-#             self.value_activation = params.get('value_activation', 'None')
-#             self.normalization = params.get('normalization', None)
-#             self.has_rnn = 'rnn' in params
-#             self.has_space = 'space' in params
-#             self.central_value = params.get('central_value', False)
-#             self.joint_obs_actions_config = params.get('joint_obs_actions', None)
-
-#             if self.has_space:
-#                 self.is_multi_discrete = 'multi_discrete'in params['space']
-#                 self.is_discrete = 'discrete' in params['space']
-#                 self.is_continuous = 'continuous'in params['space']
-#                 if self.is_continuous:
-#                     self.space_config = params['space']['continuous']
-#                     self.fixed_sigma = self.space_config['fixed_sigma']
-#                 elif self.is_discrete:
-#                     self.space_config = params['space']['discrete']
-#                 elif self.is_multi_discrete:
-#                     self.space_config = params['space']['multi_discrete']
-#             else:
-#                 self.is_discrete = False
-#                 self.is_continuous = False
-#                 self.is_multi_discrete = False
-
-#             if self.has_rnn:
-#                 self.rnn_units = params['rnn']['units']
-#                 self.rnn_layers = params['rnn']['layers']
-#                 self.rnn_name = params['rnn']['name']
-#                 self.rnn_ln = params['rnn'].get('layer_norm', False)
-#                 self.is_rnn_before_mlp = params['rnn'].get('before_mlp', False)
-#                 self.rnn_concat_input = params['rnn'].get('concat_input', False)
-
-#             if 'cnn' in params:
-#                 self.has_cnn = True
-#                 self.cnn = params['cnn']
-#                 self.permute_input = self.cnn.get('permute_input', True)
-#             else:
-#                 self.has_cnn = False
-
-#     def build(self, name, **kwargs):
-#         net = A2CBuilder.Network(self.params, **kwargs)
-#         return net
-
-# ITN
+# NO_TRANSFER
 class A2CBuilder(NetworkBuilder):
     def __init__(self, **kwargs):
         NetworkBuilder.__init__(self)
@@ -880,15 +287,6 @@ class A2CBuilder(NetworkBuilder):
             #setup_actor_mlp 
             for i in range(self.num_column):
                 setattr(self, f"actor_mlp{i}", self._build_mlp(**mlp_args))
-            #setup_linear
-            for i in range(3):
-                if i==0:
-                    setattr(self, f"target_mlp_linear{i}",torch.nn.Linear(256*self.num_column, 256))
-                if i==1:                    
-                    setattr(self, f"target_mlp_linear{i}",torch.nn.Linear(128*self.num_column, 128))
-                if i==2:                
-                    setattr(self, f"target_mlp_linear{i}",torch.nn.Linear(64*self.num_column, 64))
-                
                 # if self.num_column!=1:
                 #     self.actor_
             # self.actor_mlp = self._build_mlp(**mlp_args)  #建立mlp  #<-  * [256,128,64]
@@ -916,9 +314,13 @@ class A2CBuilder(NetworkBuilder):
                     mu_init= self.init_factory.create(**self.space_config['mu_init'])  # Identity
                     setattr(self, f"sigma_act{i}",self.activations_factory.create(self.space_config['sigma_activation']))
                     sigma_init = self.init_factory.create(**self.space_config['sigma_init'])
-                for i in range(self.num_column-1):  #n-1个128*1 的向量
-                    setattr(self,f'adapt_weight_linear{i}',torch.nn.Linear(actions_num+1,self.value_size))  #128 12 -> 128 1   [1]
-
+                for i in range(self.num_column):
+                    setattr(self,f'adapt_weight{i}',torch.nn.Linear(actions_num,self.value_size))  #128 12 -> 128 1   [1]
+                # self.mu = torch.nn.Linear(out_size, actions_num)  #建立mu层 *
+                # self.mu_act = self.activations_factory.create(self.space_config['mu_activation'])  #  *
+                # mu_init = self.init_factory.create(**self.space_config['mu_init'])  # Identity
+                # self.sigma_act = self.activations_factory.create(self.space_config['sigma_activation'])   #建立mu层  # Identity
+                # sigma_init = self.init_factory.create(**self.space_config['sigma_init'])
 
                 if self.fixed_sigma: #<-[12] 12个0
                     for i in range(self.num_column):
@@ -927,11 +329,7 @@ class A2CBuilder(NetworkBuilder):
                 else: #false
                     self.sigma = torch.nn.Linear(out_size, actions_num)
                 
-                #全连接层  【128，n-1】
-                # setattr(self,f'fc',torch.nn.Linear(self.num_column-1, self.num_column-1))   #128 12 -> 128 1   [1]
-                setattr(self,f'fc',torch.nn.Linear(self.num_column-1, self.num_column-1))   #128 12 -> 128 1   [1]
-                # fc=torch.nn.Linear(128*(self.num_column-1), self.num_column-1) 
-        
+                    
             for i in range(self.num_column):
                 mlp_init = self.init_factory.create(**self.initializer)  #Identity
             # mlp_init = self.init_factory.create(**self.initializer)  #Identity
@@ -975,37 +373,31 @@ class A2CBuilder(NetworkBuilder):
                             mlp_init(m.weight)  #不知道是否四个都会init
                             if getattr(m, "bias", None) is not None:
                                 torch.nn.init.zeros_(m.bias) 
-                        #赋值linear target_mlp_linear
-                        if len(n)>self.num_column*3 and len(n)<=self.num_column*3+3: #赋值初始化mu value
-                            mlp_init(m.weight)  #不知道是否四个都会init
-                            if getattr(m, "bias", None) is not None:
-                                torch.nn.init.zeros_(m.bias)
-                        
                         #赋值V
-                        if len(n)>self.num_column*3+3 and len(n)<=self.num_column*4+3: #赋值初始化mu value
+                        if len(n)>self.num_column*3 and len(n)<=self.num_column*4: #赋值初始化mu value
                         #赋值source_v
-                            if len(n)<self.num_column*4+3:
-                                m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-4+self.num_column][13])
+                            if len(n)<self.num_column*3+self.num_column:
+                                m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*3)-1][13])
                                 m.weight.requires_grad=False
                                 if getattr(m, "bias", None) is not None:
-                                    m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-4+self.num_column][14])
+                                    m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*3)-1][14])
                                     m.bias.requires_grad=False
                         #赋值base_v
-                            if len(n)==self.num_column*4+3:
+                            if len(n)==self.num_column*3+self.num_column:
                                 mlp_init(m.weight)  #不知道是否四个都会init
                                 if getattr(m, "bias", None) is not None:
                                     torch.nn.init.zeros_(m.bias)
                         #赋值MU
-                        if len(n)>self.num_column*4+3:
+                        if len(n)>self.num_column*4:
                         #赋值source_mu
-                            if len(n)<self.num_column*5+3:
-                                m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*5)-4+self.num_column][15])
+                            if len(n)<self.num_column*4+self.num_column:
+                                m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-1][15])
                                 m.weight.requires_grad=False
                                 if getattr(m, "bias", None) is not None:
-                                    m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*5)-4+self.num_column][16])
+                                    m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-1][16])
                                     m.bias.requires_grad=False
                         #赋值base_vmu
-                            elif len(n)==self.num_column*5+3:
+                            elif len(n)==self.num_column*4+self.num_column:
                                 mlp_init(m.weight)  #不知道是否四个都会init
                                 if getattr(m, "bias", None) is not None:
                                     torch.nn.init.zeros_(m.bias)
@@ -1019,7 +411,13 @@ class A2CBuilder(NetworkBuilder):
                             i=0
                         num_m+=1
             
-
+                # self.model.running_mean_std
+                # checkpoint = torch_ext.load_checkpoint(params['transfor'][3][0])
+                # self.model.load_state_dict(checkpoint['model'])
+                # if self.normalize_input and 'running_mean_std' in checkpoint:
+                # # nn.Parameter(source_dict_[n[-1]][i*2+7])
+                # self.model.running_mean_std.load_state_dict(checkpoint['running_mean_std'])
+                
             if self.is_continuous:  # <- # 得看module的结果进行修改
                 # for i in range(self.num_column):
                 #     mu_init(getattr(self, f"mu{i}").weight)  #[12,64]
@@ -1047,7 +445,6 @@ class A2CBuilder(NetworkBuilder):
                 if len(obs_dict['return_w'])!=0:
                     self.adapt_w=torch.tensor(obs_dict['return_w'])
             adapt_weight_out=[]
-            softattention_linear_output=[]
             Linear1_out=[]
             Linear2_out=[]
             Linear3_out=[]
@@ -1153,8 +550,8 @@ class A2CBuilder(NetworkBuilder):
                 else:
                     for i in range(self.num_column):
                         
-                        # p_out=obs[i]
                         p_out=obs[i]
+                        # p_out=obs
                         
                         p_out=getattr(self, f"actor_cnn{i}")(p_out)
                         p_out=p_out.flatten(1)
@@ -1204,124 +601,48 @@ class A2CBuilder(NetworkBuilder):
                                 Linear3_out.append(x) #[4 128 64 ]
                     for  i in range(self.num_column):
                         out[i] = getattr(self, f"actor_mlp{i}")(out[i]) #128 64  第一个task actor_mlp的总输出
-                    #求softattention_adapt_w
-                    for i in range(self.num_column-1):
-                        value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
-                                    
-                    for i in range(self.num_column-1):
-                        
-                        mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
-                #拼接mu和v
-                    for i in range(self.num_column-1):
-                        softattention_linear_input=torch.cat((value[i],mu[i]),dim=1)  #[128,13]
-                        # softattention_linear_output=getattr(self, f"adapt_weight_linear{i}")(softattention_linear_input)  #[128,1]
-                        softattention_linear_output.append(getattr(self, f"adapt_weight_linear{i}")(softattention_linear_input))  #[128,1]
-                    # for i in range(self.num_column-1):
-                    softattention_linear_output_tensor=torch.stack(softattention_linear_output,dim=0)  #(n,128,1)
-                    output_tensor = softattention_linear_output_tensor.permute(1, 0, 2).squeeze(2)  #(128,2)
-                    # output_tensor=output_tensor.reshape(1,-1)  #(1,128*n-1)
-                    output_fc=getattr(self, f"fc")(output_tensor)  #(128,2)  这里的u输入=输出  做了一个映射
-                    # 通过softmax层得到最终输出
-                    final_output = F.softmax(output_fc)  #(1,n-1)  #(1,n)
-
-                    
                     #base网络
                     base_Linear1_out=Linear1_out[self.num_column-1]  #[128,256]
                     
                     #加权后
-                    base_Linear2_in=[]
-                    # base_Linear2_out=[]
-                    base_Linear3_in=[]
-                    Linear1_mul_w_out=torch.full(np.shape(Linear1_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    Linear2_mul_w_out=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    Linear3_mul_w_out=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                
-                    # base_Linear3_out=[]
-                    # base_Linear2_in=torch.full(np.shape(Linear1_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # base_Linear2_out=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # base_Linear3_out=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # base_Linear3_in=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    base_Linear2_in=torch.full(np.shape(Linear1_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    base_Linear2_out=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    base_Linear3_out=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    base_Linear3_in=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
                     for i in range(self.num_column):
-                        # w=torch.full(np.shape(Linear1_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                        w=torch.full(np.shape(Linear1_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
                         if i !=self.num_column-1:
-                            # w=torch.full(np.shape(Linear1_out[i]),final_output[0][i].item()).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                            
-                            # base_Linear2_in.append(torch.mul(Linear1_out[i],w))
-                            Linear1_mul_w_out = Linear1_out[i] * final_output[:, i, None]
-                            # for num_row in range(Linear1_out[i].shape[0]):
-                            #     Linear1_mul_w_out[num_row,:] = Linear1_out[i][num_row,:] * final_output[:,i][num_row]
-                            base_Linear2_in.append(Linear1_mul_w_out)
+                            base_Linear2_in+=torch.mul(Linear1_out[i],w)
                         else:
-                            base_Linear2_in.append(base_Linear1_out)  #[3,128,256]  ->[128,256]
-                    target_mlp_linear0_in=torch.stack(base_Linear2_in,dim=0)
-                    # 初始化一个空的张量作为结果
-                    result = torch.empty((128, 0, 256)).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # 使用for循环将每个输入张量沿着第二个维度（列）拼接到结果张量上
-                    for i in range(target_mlp_linear0_in.shape[0]):
-                        result = torch.cat((result, target_mlp_linear0_in[i].unsqueeze(1)), dim=1)
-                    # 将结果张量的形状从[128, 3, 256]变为[128, 256*3]
-                    target_mlp_linear0_in = result.view(128, -1)
-                    target_mlp_linear0_out=getattr(self, f"target_mlp_linear0")(target_mlp_linear0_in) #(128,256)
-                    
-                    base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[2](target_mlp_linear0_out)
+                            base_Linear2_in+=torch.mul(base_Linear1_out,w)
+                            # base_Linear2_in+=base_Linear1_out*self.adapt_w[i]
+                    #重新进行计算  linear2
+                    base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[2](base_Linear2_in)
                     base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[3](base_Linear2_out) #[128,128]
-                    
                     for i in range(self.num_column):
-
+                        w=torch.full(np.shape(Linear2_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
                         if i !=self.num_column-1:
-                            # w=torch.full(np.shape(Linear2_out[i]),final_output[0][i].item()).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                            
-                            Linear2_mul_w_out = Linear2_out[i] * final_output[:, i, None]
-                            # for num_row in range(Linear2_out[i].shape[0]):
-                            #     Linear2_mul_w_out[num_row,:]= Linear2_out[i][num_row,:] * final_output[:,i][num_row]
-                            base_Linear3_in.append(Linear2_mul_w_out)
-                            # base_Linear3_in.append(torch.mul(Linear2_out[i],w))
+                            base_Linear3_in+=torch.mul(Linear2_out[i],w)
                         else:
-                            base_Linear3_in.append(base_Linear2_out)  #[3,128,128]  ->[128,256]
-                    target_mlp_linear1_in=torch.stack(base_Linear3_in,dim=0)
-                    # 初始化一个空的张量作为结果
-                    result = torch.empty((128, 0, 128)).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # 使用for循环将每个输入张量沿着第二个维度（列）拼接到结果张量上
-                    for i in range(target_mlp_linear1_in.shape[0]):
-                        result = torch.cat((result, target_mlp_linear1_in[i].unsqueeze(1)), dim=1)
-                    # 将结果张量的形状从[128, 3, 128]变为[128, 128*3]
-                    target_mlp_linear1_in = result.view(128, -1)
-                    target_mlp_linear1_out=getattr(self, f"target_mlp_linear1")(target_mlp_linear1_in) #(128,128)
-                    base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[4](target_mlp_linear1_out)
-                    base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[5](base_Linear3_out) #[128,128]
-                    
+                            base_Linear3_in+=torch.mul(base_Linear2_out,w)
                     #重新进行计算  target  V   MU [128,64]
-                    # base_V_mu_in=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    base_V_mu_in=[]
+                    base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[4](base_Linear3_in)
+                    base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[5](base_Linear3_out)
+                    base_V_mu_in=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
                     for i in range(self.num_column):
+                        w=torch.full(np.shape(Linear3_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
                         if i !=self.num_column-1:
-                            # w=torch.full(np.shape(Linear3_out[i]),final_output[0][i].item()).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                            Linear3_mul_w_out = Linear3_out[i] * final_output[:, i, None]
-
-                            # for num_row in range(Linear3_out[i].shape[0]):
-                            #     Linear3_mul_w_out[num_row,:] = Linear3_out[i][num_row,:] * final_output[:,i][num_row]
-                            base_V_mu_in.append(Linear3_mul_w_out)
-                            # base_V_mu_in.append(Linear3_out[i]*final_output[0][i])
-                            # base_V_mu_in.append(torch.mul(Linear3_out[i],w))
+                            base_V_mu_in+=torch.mul(Linear3_out[i],w)
                         else:
-                            base_V_mu_in.append(base_Linear3_out)  #[3,128,64]  
-                    target_mlp_linear2_in=torch.stack(base_V_mu_in,dim=0)
-                    # 初始化一个空的张量作为结果
-                    result = torch.empty((128, 0, 64)).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # 使用for循环将每个输入张量沿着第二个维度（列）拼接到结果张量上
-                    for i in range(target_mlp_linear2_in.shape[0]):
-                        result = torch.cat((result, target_mlp_linear2_in[i].unsqueeze(1)), dim=1)
-                    # 将结果张量的形状从[128, 3, 128]变为[128, 64*3]
-                    target_mlp_linear2_in = result.view(128, -1)#(128,192)
-                    target_mlp_linear2_out=getattr(self, f"target_mlp_linear2")(target_mlp_linear2_in) #(128,64)
-                value=[]
-                
+                            base_V_mu_in+=torch.mul(base_Linear3_out,w)
+                    
+                        # out = self.actor_mlp(out) #128 64 
                 for i in range(self.num_column):
                     if i != self.num_column-1:
                         value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
                     else:
-                        value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(target_mlp_linear2_out)))
-                        # value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
+                        # value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(base_V_mu_in)))
+                        value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
                         
                     # value = self.value_act(self.value(out))
 
@@ -1334,15 +655,20 @@ class A2CBuilder(NetworkBuilder):
                 if self.is_multi_discrete: #FALSE
                     logits = [logit(out) for logit in self.logits]
                     return logits, value, states
-                mu=[]
                 if self.is_continuous:#<-
                     for i in range(self.num_column):
                         if i != self.num_column-1:
                             mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
                         else:
-                            mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(target_mlp_linear2_out)))
-                            # mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
+                            # mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(base_V_mu_in)))
+                            mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
                             
+                        # mu = self.mu_act(self.mu(out))
+                        adapt_weight_in=getattr(self, f"adapt_weight{i}")(mu[i])
+                        
+                        adapt_weight_out.append(torch.mean(adapt_weight_in,dim=0))  #[num_clonm,128,1]->[num_clomn,1]
+                        prob=F.softmax(torch.tensor(adapt_weight_out),dim=0)
+                    #base_actor_cnn
                     if self.fixed_sigma: #<-
                         for i in range(self.num_column):
                             
@@ -1352,22 +678,22 @@ class A2CBuilder(NetworkBuilder):
                         sigma = self.sigma_act(self.sigma(out))
                     
                     #根据已经求出的单个网络的V,MU,以及base的V,和MU 计算加权后base的V和MU
-                    # out_mu=torch.full(np.shape(mu[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # out_value=torch.full(np.shape(value[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # out_sigma=torch.full(np.shape(sigma[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    # for i in range(self.num_column):
-                    #     w=torch.full(np.shape(mu[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    #     w_v=torch.full(np.shape(value[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-                    #     w_sigma=torch.full(np.shape(sigma[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    out_mu=torch.full(np.shape(mu[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    out_value=torch.full(np.shape(value[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    out_sigma=torch.full(np.shape(sigma[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                    for i in range(self.num_column):
+                        w=torch.full(np.shape(mu[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                        w_v=torch.full(np.shape(value[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                        w_sigma=torch.full(np.shape(sigma[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
                         
-                    #     # if i != self.num_column-1:
-                    #     out_mu+=torch.mul(mu[i],w)
-                    #     out_value+=torch.mul(value[i],w_v)
-                    #     #每个维度是否需要加权平均 sigma
-                    #     out_sigma+=torch.mul(sigma[i],w_sigma)
-                    # #计划返回只返回target  mu  sigma value states
-                    #     # return mu, mu*0 + sigma, value, states
-                    return mu[-1], mu[-1]*0 + sigma[-1], value[-1], states,self.num_column,self.adapt_w,mu,sigma,value,final_output
+                        # if i != self.num_column-1:
+                        out_mu+=torch.mul(mu[i],w)
+                        out_value+=torch.mul(value[i],w_v)
+                        #每个维度是否需要加权平均 sigma
+                        out_sigma+=torch.mul(sigma[i],w_sigma)
+                    #计划返回只返回target  mu  sigma value states
+                        # return mu, mu*0 + sigma, value, states
+                    return out_mu, out_mu*0 + out_sigma, out_value, states,self.num_column,self.adapt_w,mu,sigma,value,prob
                     
         def is_separate_critic(self):
             return self.separate
@@ -1447,6 +773,680 @@ class A2CBuilder(NetworkBuilder):
     def build(self, name, **kwargs):
         net = A2CBuilder.Network(self.params, **kwargs)
         return net
+
+# # ITN
+# class A2CBuilder(NetworkBuilder):
+#     def __init__(self, **kwargs):
+#         NetworkBuilder.__init__(self)
+
+#     def load(self, params):
+#         self.params = params
+
+#     class Network(NetworkBuilder.BaseNetwork):
+#         def __init__(self, params, **kwargs):  
+#             actions_num = kwargs.pop('actions_num')  #12
+#             input_shape = kwargs.pop('input_shape')  #20
+#             self.value_size = kwargs.pop('value_size', 1) #1
+#             self.num_seqs = num_seqs = kwargs.pop('num_seqs', 1)  #128
+#             num=params['transfor'][3]
+#             num=len(num)
+#             self.num_column=num+1  #网络列数
+#             if self.num_column!=1:
+#                 tasks_sim=torch.cat((params['transfor'][0].squeeze(0), torch.Tensor([0.9])), 0)
+#             #随机初始化权重
+#             # adapt_w=torch.rand(self.num_column)
+#             # self.adapt_w=adapt_w/(adapt_w.sum())
+#                 self.adapt_w=tasks_sim/(tasks_sim.sum())
+#             else:
+#                 adapt_w=torch.rand(self.num_column)
+#                 self.adapt_w=adapt_w/(adapt_w.sum())
+#             NetworkBuilder.BaseNetwork.__init__(self)
+#             # source 获取需要初始化的参数  （冻结source,优化target）
+#             source_params=[]
+#             source_dict=[]
+#             source_dict_=[]
+#             if self.num_column!=1:
+#                 source_path_list=params['transfor'][3]
+#                 #加载完整模型
+#                 for i in range(len(source_path_list)):
+#                     source_params.append(torch.load(source_path_list[i]))
+#                     for key,value in source_params[i]['model'].items():
+#                         source_dict.append(value)
+#                     source_dict_.append(source_dict)
+#                     source_dict=[]
+                            
+#             self.load(params)
+#             for i in range(self.num_column):
+#                 setattr(self, f"actor_cnn{i}", nn.Sequential())
+#                 setattr(self, f"critic_cnn{i}", nn.Sequential())
+#                 setattr(self, f"actor_mlp{i}", nn.Sequential())
+#                 setattr(self, f"critic_mlp{i}", nn.Sequential())
+            
+
+            
+#             if self.has_cnn:  #false  跳过
+#                 if self.permute_input:
+#                     input_shape = torch_ext.shape_whc_to_cwh(input_shape)
+#                 cnn_args = {
+#                     'ctype' : self.cnn['type'], 
+#                     'input_shape' : input_shape, 
+#                     'convs' :self.cnn['convs'], 
+#                     'activation' : self.cnn['activation'], 
+#                     'norm_func_name' : self.normalization,
+#                 }
+#                 self.actor_cnn = self._build_conv(**cnn_args)
+
+#                 if self.separate:
+#                     self.critic_cnn = self._build_conv( **cnn_args)
+#             #input_size =num_envobs
+#             mlp_input_shape = self._calc_input_size(input_shape, self.actor_cnn0)  #input_shape=20    mlp_input_shape=20
+
+#             in_mlp_shape = mlp_input_shape  #20  #<-
+#             if len(self.units) == 0:    # false
+#                 out_size = mlp_input_shape
+#             else:
+#                 out_size = self.units[-1]   #<-  64 不需要改
+
+#             if self.has_rnn:   # false
+#                 if not self.is_rnn_before_mlp:
+#                     rnn_in_size = out_size
+#                     out_size = self.rnn_units
+#                     if self.rnn_concat_input:
+#                         rnn_in_size += in_mlp_shape
+#                 else:
+#                     rnn_in_size =  in_mlp_shape
+#                     in_mlp_shape = self.rnn_units
+
+#                 if self.separate:
+#                     self.a_rnn = self._build_rnn(self.rnn_name, rnn_in_size, self.rnn_units, self.rnn_layers)
+#                     self.c_rnn = self._build_rnn(self.rnn_name, rnn_in_size, self.rnn_units, self.rnn_layers)
+#                     if self.rnn_ln:
+#                         self.a_layer_norm = torch.nn.LayerNorm(self.rnn_units)
+#                         self.c_layer_norm = torch.nn.LayerNorm(self.rnn_units)
+#                 else:
+#                     self.rnn = self._build_rnn(self.rnn_name, rnn_in_size, self.rnn_units, self.rnn_layers)
+#                     if self.rnn_ln:
+#                         self.layer_norm = torch.nn.LayerNorm(self.rnn_units)
+
+#             mlp_args = {
+#                 'input_size' : in_mlp_shape,   #<-20 
+#                 'units' : self.units,   #[256,128,64]
+#                 'activation' : self.activation,  #elu
+#                 'norm_func_name' : self.normalization, #none
+#                 'dense_func' : torch.nn.Linear,
+#                 'd2rl' : self.is_d2rl,  #false
+#                 'norm_only_first_layer' : self.norm_only_first_layer #false
+#             }
+#             #setup_actor_mlp 
+#             for i in range(self.num_column):
+#                 setattr(self, f"actor_mlp{i}", self._build_mlp(**mlp_args))
+#             #setup_linear
+#             for i in range(3):
+#                 if i==0:
+#                     setattr(self, f"target_mlp_linear{i}",torch.nn.Linear(256*self.num_column, 256))
+#                 if i==1:                    
+#                     setattr(self, f"target_mlp_linear{i}",torch.nn.Linear(128*self.num_column, 128))
+#                 if i==2:                
+#                     setattr(self, f"target_mlp_linear{i}",torch.nn.Linear(64*self.num_column, 64))
+                
+#                 # if self.num_column!=1:
+#                 #     self.actor_
+#             # self.actor_mlp = self._build_mlp(**mlp_args)  #建立mlp  #<-  * [256,128,64]
+#             if self.separate:  #false
+#                 self.critic_mlp = self._build_mlp(**mlp_args)
+            
+#             #setup_value
+#             for i in range(self.num_column):
+#                 setattr(self, f"value{i}", self._build_value_layer(out_size, self.value_size))
+#                 setattr(self, f"value_act{i}", self.activations_factory.create(self.value_activation))
+#             # self.value = self._build_value_layer(out_size, self.value_size) #建立V层  *修改
+#             # self.value_act = self.activations_factory.create(self.value_activation) # none *
+
+#             if self.is_discrete: #false
+#                 self.logits = torch.nn.Linear(out_size, actions_num)
+#             '''
+#                 for multidiscrete actions num is a tuple
+#             '''
+#             if self.is_multi_discrete:  #false
+#                 self.logits = torch.nn.ModuleList([torch.nn.Linear(out_size, num) for num in actions_num])
+#             if self.is_continuous:  #<- 
+#                 for i in range(self.num_column):
+#                     setattr(self, f"mu{i}", torch.nn.Linear(out_size, actions_num))
+#                     setattr(self, f"mu_act{i}", self.activations_factory.create(self.space_config['mu_activation']))
+#                     mu_init= self.init_factory.create(**self.space_config['mu_init'])  # Identity
+#                     setattr(self, f"sigma_act{i}",self.activations_factory.create(self.space_config['sigma_activation']))
+#                     sigma_init = self.init_factory.create(**self.space_config['sigma_init'])
+#                 for i in range(self.num_column-1):  #n-1个128*1 的向量
+#                     setattr(self,f'adapt_weight_linear{i}',torch.nn.Linear(actions_num+1,self.value_size))  #128 12 -> 128 1   [1]
+
+
+#                 if self.fixed_sigma: #<-[12] 12个0
+#                     for i in range(self.num_column):
+#                         setattr(self, f"sigma{i}",nn.Parameter(torch.zeros(actions_num, requires_grad=True, dtype=torch.float32), requires_grad=True))
+#                     # self.sigma = nn.Parameter(torch.zeros(actions_num, requires_grad=True, dtype=torch.float32), requires_grad=True)
+#                 else: #false
+#                     self.sigma = torch.nn.Linear(out_size, actions_num)
+                
+#                 #全连接层  【128，n-1】
+#                 # setattr(self,f'fc',torch.nn.Linear(self.num_column-1, self.num_column-1))   #128 12 -> 128 1   [1]
+#                 setattr(self,f'fc',torch.nn.Linear(self.num_column-1, self.num_column-1))   #128 12 -> 128 1   [1]
+#                 # fc=torch.nn.Linear(128*(self.num_column-1), self.num_column-1) 
+        
+#             for i in range(self.num_column):
+#                 mlp_init = self.init_factory.create(**self.initializer)  #Identity
+#             # mlp_init = self.init_factory.create(**self.initializer)  #Identity
+#             if self.has_cnn:  #false
+#                 cnn_init = self.init_factory.create(**self.cnn['initializer'])
+#             #if is_transfor=Falsec 不进行迁移
+#     #注释if
+#             if self.num_column==1:
+#                 for m in self.modules():         # <-  PyTorch复杂模型初始化权重 只进行了一个模型的初始化
+#                     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Conv1d):# false  isinstance() 函数来判断一个对象是否是一个已知的类型，类似 type()。
+#                         cnn_init(m.weight)
+#                         if getattr(m, "bias", None) is not None:
+#                             torch.nn.init.zeros_(m.bias)
+#                     if isinstance(m, nn.Linear):
+#                         mlp_init(m.weight)  #不知道是否四个都会init
+#                         if getattr(m, "bias", None) is not None:
+#                             torch.nn.init.zeros_(m.bias)   
+ 
+#             else:  #if is_transfor=true 进行迁移
+#                 i=0
+#                 n=[]
+#                 num_m=0
+#                 for m in self.modules():         # <-  PyTorch复杂模型初始化权重 只进行了一个模型的初始化
+#                     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Conv1d):# false  isinstance() 函数来判断一个对象是否是一个已知的类型，类似 type()。
+#                         cnn_init(m.weight)
+#                         if getattr(m, "bias", None) is not None:
+#                             torch.nn.init.zeros_(m.bias)
+#                     if isinstance(m, nn.Linear):
+#                         n.append(num_m//3)
+#                         #赋值source_mlp
+#                         if len(n) <= (self.num_column-1)*3:  #mlp 先赋值source
+#                             m.weight=nn.Parameter(source_dict_[n[-1]][i*2+7])
+#                             m.weight.requires_grad=False
+#                             # mlp_init(m.weight)  #不知道是否四个都会init
+#                             if getattr(m, "bias", None) is not None:
+#                                 # torch.nn.init.zeros_(m.bias)
+#                                 m.bias=nn.Parameter(source_dict_[n[-1]][i*2+8])
+#                                 m.bias.requires_grad=False
+#                         #赋值base_mlp
+#                         if len(n) >= (self.num_column-1)*3+1 and len(n)<=self.num_column*3:  #base_mlp
+#                             mlp_init(m.weight)  #不知道是否四个都会init
+#                             if getattr(m, "bias", None) is not None:
+#                                 torch.nn.init.zeros_(m.bias) 
+#                         #赋值linear target_mlp_linear
+#                         if len(n)>self.num_column*3 and len(n)<=self.num_column*3+3: #赋值初始化mu value
+#                             mlp_init(m.weight)  #不知道是否四个都会init
+#                             if getattr(m, "bias", None) is not None:
+#                                 torch.nn.init.zeros_(m.bias)
+                        
+#                         #赋值V
+#                         if len(n)>self.num_column*3+3 and len(n)<=self.num_column*4+3: #赋值初始化mu value
+#                         #赋值source_v
+#                             if len(n)<self.num_column*4+3:
+#                                 m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-4+self.num_column][13])
+#                                 m.weight.requires_grad=False
+#                                 if getattr(m, "bias", None) is not None:
+#                                     m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*4)-4+self.num_column][14])
+#                                     m.bias.requires_grad=False
+#                         #赋值base_v
+#                             if len(n)==self.num_column*4+3:
+#                                 mlp_init(m.weight)  #不知道是否四个都会init
+#                                 if getattr(m, "bias", None) is not None:
+#                                     torch.nn.init.zeros_(m.bias)
+#                         #赋值MU
+#                         if len(n)>self.num_column*4+3:
+#                         #赋值source_mu
+#                             if len(n)<self.num_column*5+3:
+#                                 m.weight=nn.Parameter(source_dict_[(len(n)-self.num_column*5)-4+self.num_column][15])
+#                                 m.weight.requires_grad=False
+#                                 if getattr(m, "bias", None) is not None:
+#                                     m.bias=nn.Parameter(source_dict_[(len(n)-self.num_column*5)-4+self.num_column][16])
+#                                     m.bias.requires_grad=False
+#                         #赋值base_vmu
+#                             elif len(n)==self.num_column*5+3:
+#                                 mlp_init(m.weight)  #不知道是否四个都会init
+#                                 if getattr(m, "bias", None) is not None:
+#                                     torch.nn.init.zeros_(m.bias)
+                                    
+#                             else:
+#                                 mlp_init(m.weight)  #不知道是否四个都会init
+#                                 if getattr(m, "bias", None) is not None:
+#                                     torch.nn.init.zeros_(m.bias)
+#                         i+=1
+#                         if i%3==0:
+#                             i=0
+#                         num_m+=1
+            
+
+#             if self.is_continuous:  # <- # 得看module的结果进行修改
+#                 # for i in range(self.num_column):
+#                 #     mu_init(getattr(self, f"mu{i}").weight)  #[12,64]
+#                 if self.fixed_sigma: #<-
+#                     # for i in range(self.num_column):
+#                     #     sigma_init(getattr(self, f"sigma{i}"))  #[12,64]
+#                     for i in range(self.num_column):
+#                         #赋值source_sigma
+#                         if i <self.num_column-1:
+#                             # getattr(self, f"sigma{i}").T=source_dict_[i][6]
+#                             # getattr(self, f"sigma{i}").data=source_dict_[i][6]
+#                             setattr(self, f"sigma{i}",nn.Parameter(source_dict_[i][6], requires_grad=False))
+#                         #赋值base_sigma
+#                         if i == self.num_column-1:       
+#                             sigma_init(getattr(self, f"sigma{i}"))  #[12,64]
+#                     # sigma_init(self.sigma)  #[12]
+#                 else:  #flase
+#                     for i in range(self.num_column):
+#                         sigma_init(getattr(self, f"sigma{i}").weight)  #[12,64]
+#                     # sigma_init(self.sigma.weight)  
+#             #到此网络建好
+        
+#         def forward(self, obs_dict):
+#             if obs_dict.get('return_w')!=None:
+#                 if len(obs_dict['return_w'])!=0:
+#                     self.adapt_w=torch.tensor(obs_dict['return_w'])
+#             adapt_weight_out=[]
+#             softattention_linear_output=[]
+#             Linear1_out=[]
+#             Linear2_out=[]
+#             Linear3_out=[]
+#             out=[]
+#             mu=[]
+#             sigma=[]
+#             value=[]
+#             obs = obs_dict['obs']#[128,20]
+#             states = obs_dict.get('rnn_states', None)#获取当前state  None
+#             seq_length = obs_dict.get('seq_length', 1) #1
+#             dones = obs_dict.get('dones', None)         #none
+#             bptt_len = obs_dict.get('bptt_len', 0)     #0
+#             if self.has_cnn:  #false
+#                 # for obs shape 4
+#                 # input expected shape (B, W, H, C)
+#                 # convert to (B, C, W, H)
+#                 if self.permute_input and len(obs.shape) == 4:
+#                     obs = obs.permute((0, 3, 1, 2))
+
+#             if self.separate:  # false
+#                 a_out = c_out = obs
+#                 a_out = self.actor_cnn(a_out)
+#                 a_out = a_out.contiguous().view(a_out.size(0), -1)
+
+#                 c_out = self.critic_cnn(c_out)
+#                 c_out = c_out.contiguous().view(c_out.size(0), -1)                    
+
+#                 if self.has_rnn:
+#                     if not self.is_rnn_before_mlp:
+#                         a_out_in = a_out
+#                         c_out_in = c_out
+#                         a_out = self.actor_mlp(a_out_in)
+#                         c_out = self.critic_mlp(c_out_in)
+
+#                         if self.rnn_concat_input:
+#                             a_out = torch.cat([a_out, a_out_in], dim=1)
+#                             c_out = torch.cat([c_out, c_out_in], dim=1)
+
+#                     batch_size = a_out.size()[0]
+#                     num_seqs = batch_size // seq_length
+#                     a_out = a_out.reshape(num_seqs, seq_length, -1)
+#                     c_out = c_out.reshape(num_seqs, seq_length, -1)
+
+#                     a_out = a_out.transpose(0,1)
+#                     c_out = c_out.transpose(0,1)
+#                     if dones is not None:
+#                         dones = dones.reshape(num_seqs, seq_length, -1)
+#                         dones = dones.transpose(0,1)
+
+#                     if len(states) == 2:
+#                         a_states = states[0]
+#                         c_states = states[1]
+#                     else:
+#                         a_states = states[:2]
+#                         c_states = states[2:]                        
+#                     a_out, a_states = self.a_rnn(a_out, a_states, dones, bptt_len)
+#                     c_out, c_states = self.c_rnn(c_out, c_states, dones, bptt_len)
+
+#                     a_out = a_out.transpose(0,1)
+#                     c_out = c_out.transpose(0,1)
+#                     a_out = a_out.contiguous().reshape(a_out.size()[0] * a_out.size()[1], -1)
+#                     c_out = c_out.contiguous().reshape(c_out.size()[0] * c_out.size()[1], -1)
+#                     if self.rnn_ln:
+#                         a_out = self.a_layer_norm(a_out)
+#                         c_out = self.c_layer_norm(c_out)
+#                     if type(a_states) is not tuple:
+#                         a_states = (a_states,)
+#                         c_states = (c_states,)
+#                     states = a_states + c_states
+
+#                     if self.is_rnn_before_mlp:
+#                         a_out = self.actor_mlp(a_out)
+#                         c_out = self.critic_mlp(c_out)
+#                 else:
+#                     a_out = self.actor_mlp(a_out)
+#                     c_out = self.critic_mlp(c_out)
+                            
+#                 value = self.value_act(self.value(c_out))
+
+#                 if self.is_discrete:
+#                     logits = self.logits(a_out)
+#                     return logits, value, states
+
+#                 if self.is_multi_discrete:
+#                     logits = [logit(a_out) for logit in self.logits]
+#                     return logits, value, states
+
+#                 if self.is_continuous:
+#                     mu = self.mu_act(self.mu(a_out))
+#                     if self.fixed_sigma:
+#                         sigma = mu * 0.0 + self.sigma_act(self.sigma)
+#                     else:
+#                         sigma = self.sigma_act(self.sigma(a_out))
+
+#                     return mu, sigma, value, states
+#             else:  # <-
+#                 if self.num_column==1:
+#                     for i in range(self.num_column):
+#                         p_out=obs
+#                         p_out=getattr(self, f"actor_cnn{i}")(p_out)
+#                         p_out=p_out.flatten(1)
+#                         out.append(p_out) #  512  41
+#                 else:
+#                     for i in range(self.num_column):
+                        
+#                         # p_out=obs[i]
+#                         p_out=obs[i]
+                        
+#                         p_out=getattr(self, f"actor_cnn{i}")(p_out)
+#                         p_out=p_out.flatten(1)
+#                         out.append(p_out) #[4,128,20]
+
+#                     # if i == (len(self.num_column)-1):
+#                     #     base_actor_cnn=out[i]        
+#                 if self.has_rnn: #false
+#                     out_in = out
+#                     if not self.is_rnn_before_mlp:
+#                         out_in = out
+#                         out = self.actor_mlp(out)
+#                         if self.rnn_concat_input:
+#                             out = torch.cat([out, out_in], dim=1)
+
+#                     batch_size = out.size()[0]
+#                     num_seqs = batch_size // seq_length
+#                     out = out.reshape(num_seqs, seq_length, -1)
+
+#                     if len(states) == 1:
+#                         states = states[0]
+
+#                     out = out.transpose(0, 1)
+#                     if dones is not None:
+#                         dones = dones.reshape(num_seqs, seq_length, -1)
+#                         dones = dones.transpose(0, 1)
+#                     out, states = self.rnn(out, states, dones, bptt_len)
+#                     out = out.transpose(0, 1)
+#                     out = out.contiguous().reshape(out.size()[0] * out.size()[1], -1)
+
+#                     if self.rnn_ln:
+#                         out = self.layer_norm(out)
+#                     if self.is_rnn_before_mlp:
+#                         out = self.actor_mlp(out)
+#                     if type(states) is not tuple:
+#                         states = (states,)
+#                 else:   #<-
+#                     for i in range(self.num_column):
+#                         x=out[i]  #[128,20]
+#                         for j in range(len(getattr(self, f"actor_mlp{i}"))):  #0 1 2 3 4 5
+#                             x = getattr(self, f"actor_mlp{i}")[j](x)  #[128,256]
+#                             if j == 1:
+#                                 Linear1_out.append(x) #[4 128 256 ]
+#                             if j == 3:
+#                                  Linear2_out.append(x)  #[4 128 128 ]
+#                             if j == 5:
+#                                 Linear3_out.append(x) #[4 128 64 ]
+#                     for  i in range(self.num_column):
+#                         out[i] = getattr(self, f"actor_mlp{i}")(out[i]) #128 64  第一个task actor_mlp的总输出
+#                     #求softattention_adapt_w
+#                     for i in range(self.num_column-1):
+#                         value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
+                                    
+#                     for i in range(self.num_column-1):
+                        
+#                         mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
+#                 #拼接mu和v
+#                     for i in range(self.num_column-1):
+#                         softattention_linear_input=torch.cat((value[i],mu[i]),dim=1)  #[128,13]
+#                         # softattention_linear_output=getattr(self, f"adapt_weight_linear{i}")(softattention_linear_input)  #[128,1]
+#                         softattention_linear_output.append(getattr(self, f"adapt_weight_linear{i}")(softattention_linear_input))  #[128,1]
+#                     # for i in range(self.num_column-1):
+#                     softattention_linear_output_tensor=torch.stack(softattention_linear_output,dim=0)  #(n,128,1)
+#                     output_tensor = softattention_linear_output_tensor.permute(1, 0, 2).squeeze(2)  #(128,2)
+#                     # output_tensor=output_tensor.reshape(1,-1)  #(1,128*n-1)
+#                     output_fc=getattr(self, f"fc")(output_tensor)  #(128,2)  这里的u输入=输出  做了一个映射
+#                     # 通过softmax层得到最终输出
+#                     final_output = F.softmax(output_fc)  #(1,n-1)  #(1,n)
+
+                    
+#                     #base网络
+#                     base_Linear1_out=Linear1_out[self.num_column-1]  #[128,256]
+                    
+#                     #加权后
+#                     base_Linear2_in=[]
+#                     # base_Linear2_out=[]
+#                     base_Linear3_in=[]
+#                     Linear1_mul_w_out=torch.full(np.shape(Linear1_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     Linear2_mul_w_out=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     Linear3_mul_w_out=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                
+#                     # base_Linear3_out=[]
+#                     # base_Linear2_in=torch.full(np.shape(Linear1_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # base_Linear2_out=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # base_Linear3_out=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # base_Linear3_in=torch.full(np.shape(Linear2_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     for i in range(self.num_column):
+#                         # w=torch.full(np.shape(Linear1_out[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                         if i !=self.num_column-1:
+#                             # w=torch.full(np.shape(Linear1_out[i]),final_output[0][i].item()).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                            
+#                             # base_Linear2_in.append(torch.mul(Linear1_out[i],w))
+#                             Linear1_mul_w_out = Linear1_out[i] * final_output[:, i, None]
+#                             # for num_row in range(Linear1_out[i].shape[0]):
+#                             #     Linear1_mul_w_out[num_row,:] = Linear1_out[i][num_row,:] * final_output[:,i][num_row]
+#                             base_Linear2_in.append(Linear1_mul_w_out)
+#                         else:
+#                             base_Linear2_in.append(base_Linear1_out)  #[3,128,256]  ->[128,256]
+#                     target_mlp_linear0_in=torch.stack(base_Linear2_in,dim=0)
+#                     # 初始化一个空的张量作为结果
+#                     result = torch.empty((128, 0, 256)).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # 使用for循环将每个输入张量沿着第二个维度（列）拼接到结果张量上
+#                     for i in range(target_mlp_linear0_in.shape[0]):
+#                         result = torch.cat((result, target_mlp_linear0_in[i].unsqueeze(1)), dim=1)
+#                     # 将结果张量的形状从[128, 3, 256]变为[128, 256*3]
+#                     target_mlp_linear0_in = result.view(128, -1)
+#                     target_mlp_linear0_out=getattr(self, f"target_mlp_linear0")(target_mlp_linear0_in) #(128,256)
+                    
+#                     base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[2](target_mlp_linear0_out)
+#                     base_Linear2_out = getattr(self, f"actor_mlp{self.num_column-1}")[3](base_Linear2_out) #[128,128]
+                    
+#                     for i in range(self.num_column):
+
+#                         if i !=self.num_column-1:
+#                             # w=torch.full(np.shape(Linear2_out[i]),final_output[0][i].item()).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                            
+#                             Linear2_mul_w_out = Linear2_out[i] * final_output[:, i, None]
+#                             # for num_row in range(Linear2_out[i].shape[0]):
+#                             #     Linear2_mul_w_out[num_row,:]= Linear2_out[i][num_row,:] * final_output[:,i][num_row]
+#                             base_Linear3_in.append(Linear2_mul_w_out)
+#                             # base_Linear3_in.append(torch.mul(Linear2_out[i],w))
+#                         else:
+#                             base_Linear3_in.append(base_Linear2_out)  #[3,128,128]  ->[128,256]
+#                     target_mlp_linear1_in=torch.stack(base_Linear3_in,dim=0)
+#                     # 初始化一个空的张量作为结果
+#                     result = torch.empty((128, 0, 128)).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # 使用for循环将每个输入张量沿着第二个维度（列）拼接到结果张量上
+#                     for i in range(target_mlp_linear1_in.shape[0]):
+#                         result = torch.cat((result, target_mlp_linear1_in[i].unsqueeze(1)), dim=1)
+#                     # 将结果张量的形状从[128, 3, 128]变为[128, 128*3]
+#                     target_mlp_linear1_in = result.view(128, -1)
+#                     target_mlp_linear1_out=getattr(self, f"target_mlp_linear1")(target_mlp_linear1_in) #(128,128)
+#                     base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[4](target_mlp_linear1_out)
+#                     base_Linear3_out = getattr(self, f"actor_mlp{self.num_column-1}")[5](base_Linear3_out) #[128,128]
+                    
+#                     #重新进行计算  target  V   MU [128,64]
+#                     # base_V_mu_in=torch.full(np.shape(Linear3_out[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     base_V_mu_in=[]
+#                     for i in range(self.num_column):
+#                         if i !=self.num_column-1:
+#                             # w=torch.full(np.shape(Linear3_out[i]),final_output[0][i].item()).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                             Linear3_mul_w_out = Linear3_out[i] * final_output[:, i, None]
+
+#                             # for num_row in range(Linear3_out[i].shape[0]):
+#                             #     Linear3_mul_w_out[num_row,:] = Linear3_out[i][num_row,:] * final_output[:,i][num_row]
+#                             base_V_mu_in.append(Linear3_mul_w_out)
+#                             # base_V_mu_in.append(Linear3_out[i]*final_output[0][i])
+#                             # base_V_mu_in.append(torch.mul(Linear3_out[i],w))
+#                         else:
+#                             base_V_mu_in.append(base_Linear3_out)  #[3,128,64]  
+#                     target_mlp_linear2_in=torch.stack(base_V_mu_in,dim=0)
+#                     # 初始化一个空的张量作为结果
+#                     result = torch.empty((128, 0, 64)).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # 使用for循环将每个输入张量沿着第二个维度（列）拼接到结果张量上
+#                     for i in range(target_mlp_linear2_in.shape[0]):
+#                         result = torch.cat((result, target_mlp_linear2_in[i].unsqueeze(1)), dim=1)
+#                     # 将结果张量的形状从[128, 3, 128]变为[128, 64*3]
+#                     target_mlp_linear2_in = result.view(128, -1)#(128,192)
+#                     target_mlp_linear2_out=getattr(self, f"target_mlp_linear2")(target_mlp_linear2_in) #(128,64)
+#                 value=[]
+                
+#                 for i in range(self.num_column):
+#                     if i != self.num_column-1:
+#                         value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
+#                     else:
+#                         value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(target_mlp_linear2_out)))
+#                         # value.append(getattr(self, f"value_act{i}")(getattr(self, f"value{i}")(out[i])))
+                        
+#                     # value = self.value_act(self.value(out))
+
+#                 if self.central_value:#FALSE
+#                     return value, states
+
+#                 if self.is_discrete: #FALSE
+#                     logits = self.logits(out)
+#                     return logits, value, states
+#                 if self.is_multi_discrete: #FALSE
+#                     logits = [logit(out) for logit in self.logits]
+#                     return logits, value, states
+#                 mu=[]
+#                 if self.is_continuous:#<-
+#                     for i in range(self.num_column):
+#                         if i != self.num_column-1:
+#                             mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
+#                         else:
+#                             mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(target_mlp_linear2_out)))
+#                             # mu.append(getattr(self, f"mu_act{i}")(getattr(self, f"mu{i}")(out[i])))
+                            
+#                     if self.fixed_sigma: #<-
+#                         for i in range(self.num_column):
+                            
+#                             sigma.append(getattr(self, f"sigma_act{i}")(getattr(self, f"sigma{i}"))) #[12]
+#                             # sigma = self.sigma_act(self.sigma) #[12]
+#                     else: #false
+#                         sigma = self.sigma_act(self.sigma(out))
+                    
+#                     #根据已经求出的单个网络的V,MU,以及base的V,和MU 计算加权后base的V和MU
+#                     # out_mu=torch.full(np.shape(mu[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # out_value=torch.full(np.shape(value[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # out_sigma=torch.full(np.shape(sigma[0]),0.0).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     # for i in range(self.num_column):
+#                     #     w=torch.full(np.shape(mu[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     #     w_v=torch.full(np.shape(value[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+#                     #     w_sigma=torch.full(np.shape(sigma[i]),self.adapt_w[i]).to( torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+                        
+#                     #     # if i != self.num_column-1:
+#                     #     out_mu+=torch.mul(mu[i],w)
+#                     #     out_value+=torch.mul(value[i],w_v)
+#                     #     #每个维度是否需要加权平均 sigma
+#                     #     out_sigma+=torch.mul(sigma[i],w_sigma)
+#                     # #计划返回只返回target  mu  sigma value states
+#                     #     # return mu, mu*0 + sigma, value, states
+#                     return mu[-1], mu[-1]*0 + sigma[-1], value[-1], states,self.num_column,self.adapt_w,mu,sigma,value,final_output
+                    
+#         def is_separate_critic(self):
+#             return self.separate
+
+#         def is_rnn(self):
+#             return self.has_rnn
+
+#         def get_default_rnn_state(self):
+#             if not self.has_rnn:
+#                 return None
+#             num_layers = self.rnn_layers
+#             if self.rnn_name == 'identity':
+#                 rnn_units = 1
+#             else:
+#                 rnn_units = self.rnn_units
+#             if self.rnn_name == 'lstm':
+#                 if self.separate:
+#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)), 
+#                             torch.zeros((num_layers, self.num_seqs, rnn_units)),
+#                             torch.zeros((num_layers, self.num_seqs, rnn_units)), 
+#                             torch.zeros((num_layers, self.num_seqs, rnn_units)))
+#                 else:
+#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)), 
+#                             torch.zeros((num_layers, self.num_seqs, rnn_units)))
+#             else:
+#                 if self.separate:
+#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)), 
+#                             torch.zeros((num_layers, self.num_seqs, rnn_units)))
+#                 else:
+#                     return (torch.zeros((num_layers, self.num_seqs, rnn_units)),)                
+
+#         def load(self, params):
+#             self.separate = params.get('separate', False)
+#             self.units = params['mlp']['units']
+#             self.activation = params['mlp']['activation']
+#             self.initializer = params['mlp']['initializer']
+#             self.is_d2rl = params['mlp'].get('d2rl', False)
+#             self.norm_only_first_layer = params['mlp'].get('norm_only_first_layer', False)
+#             self.value_activation = params.get('value_activation', 'None')
+#             self.normalization = params.get('normalization', None)
+#             self.has_rnn = 'rnn' in params
+#             self.has_space = 'space' in params
+#             self.central_value = params.get('central_value', False)
+#             self.joint_obs_actions_config = params.get('joint_obs_actions', None)
+
+#             if self.has_space:
+#                 self.is_multi_discrete = 'multi_discrete'in params['space']
+#                 self.is_discrete = 'discrete' in params['space']
+#                 self.is_continuous = 'continuous'in params['space']
+#                 if self.is_continuous:
+#                     self.space_config = params['space']['continuous']
+#                     self.fixed_sigma = self.space_config['fixed_sigma']
+#                 elif self.is_discrete:
+#                     self.space_config = params['space']['discrete']
+#                 elif self.is_multi_discrete:
+#                     self.space_config = params['space']['multi_discrete']
+#             else:
+#                 self.is_discrete = False
+#                 self.is_continuous = False
+#                 self.is_multi_discrete = False
+
+#             if self.has_rnn:
+#                 self.rnn_units = params['rnn']['units']
+#                 self.rnn_layers = params['rnn']['layers']
+#                 self.rnn_name = params['rnn']['name']
+#                 self.rnn_ln = params['rnn'].get('layer_norm', False)
+#                 self.is_rnn_before_mlp = params['rnn'].get('before_mlp', False)
+#                 self.rnn_concat_input = params['rnn'].get('concat_input', False)
+
+#             if 'cnn' in params:
+#                 self.has_cnn = True
+#                 self.cnn = params['cnn']
+#                 self.permute_input = self.cnn.get('permute_input', True)
+#             else:
+#                 self.has_cnn = False
+
+#     def build(self, name, **kwargs):
+#         net = A2CBuilder.Network(self.params, **kwargs)
+#         return net
 
 
 
