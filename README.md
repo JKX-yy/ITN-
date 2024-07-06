@@ -3,7 +3,7 @@
 <div align="center">
 
 [[Website]](https://jkx-yy.github.io/)
-[[PDF] ](https://github.com/JKX-yy/ITN-/blob/master/image/ieeeconf__%E7%AC%AC%E4%BA%94%E7%89%88%E8%8B%B1%E6%96%87___8%E9%A1%B5_.pdf)
+[[PDF] ](extension://bfdogplmndidlpjfhoijckpakkdjkkil/pdf/viewer.html?file=https%3A%2F%2Fjkx-yy.github.io%2Fieeeconf__%25E7%25AC%25AC%25E4%25B8%2589%25E7%2589%2588%25E8%258B%25B1%25E6%2596%2587___8%25E9%25A1%25B5_.pdf)
 
 
 
