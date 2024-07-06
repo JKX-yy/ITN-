@@ -101,11 +101,14 @@ python train.py task=FactoryTaskNutBoltScrew  is_transfor: False  is_adapt_w: Fa
 ```
 
 We give running code for  complex skills No_Transfer and ITN learning:
+
 Complex Skills  Learning from scratch (NO_Transfer)
 ```
 python train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor: False  is_adapt_w: False    
 ```
-Complex Skills  Accelerated learning through transfer learning
+Complex Skills  Accelerated learning through transfer learning(ITN).
+
+You need to open rl_games/rl_games/algos_torch/network_builder.py and comment out the default class A2CBuilder(NetworkBuilder) (# NO_TRANSFER). Free the class A2CBuilder(NetworkBuilder)# #ITN.
 
 ```
 python train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor: True  is_adapt_w: True 
