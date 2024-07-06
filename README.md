@@ -62,7 +62,7 @@ openai.api_key= "YOUR_API_KEY"
 
 # The Generator Generates the Reward Function
 
-1. The generator generates the reward function,navigate to the `ITN` directory and run:
+The generator generates the reward function,navigate to the `ITN` directory and run:
 ```
 python ITN.py env={environment} iteration={num_iterations} sample={num_samples}
 ```
@@ -82,6 +82,7 @@ The results of the run can be viewed in ITN/outputs/ITN .You can also refer to h
 
 # Robotics Skills Transfer Learning
 We have only given an example of transfer for the NutBolt_PickPlace task, the other tasks are on the same principle.
+
 First of all the two base skills (Pick&Place) for this task are given in the skill space isaacgymenvs/isaacgymenvs/cfg/skill-space/skill-space.yaml, and you can also use only one of the skills for the target task for transfer learning.
 
 ```
