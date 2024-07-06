@@ -42,7 +42,7 @@ git clone https://github.com/JKX-yy/ITN-.git
 2  Creat Conda  Environment
 We saved our running conda environment in **isaacgymenvs/isaacgymenvs/environment.yml**, and you only need to do the following steps to create an identical conda environment.You can change the name of your environment in environment.yml.
 ```
-cd isaacgymenvs/isaacgymenvs/
+cd ITN-/isaacgymenvs/isaacgymenvs/
 conda env create -f environment.yml
 ```
 
