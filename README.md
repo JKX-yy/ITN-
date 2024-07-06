@@ -35,18 +35,15 @@ ______________________________________________________________________
 # Installation
 Eureka requires Python ≥ 3.8. We have tested on Ubuntu 20.04 and 22.04.
 
-1. Install ITN
 ```
-git clone https://github.com/JKX-yy/ITN-.git
+1.  Creat Conda  Environment
+
 ```
-2  Creat Conda  Environment
-We saved our running conda environment in **isaacgymenvs/isaacgymenvs/environment.yml**, and you only need to do the following steps to create an identical conda environment.You can change the name of your environment in environment.yml.
-```
-cd ITN-/isaacgymenvs/isaacgymenvs/
-conda env create -f environment.yml
+conda create -n ITN python=3.8
+conda activate ITN
 ```
 
-3. Install IsaacGym (tested with `Preview Release 4/4`). Follow the [instruction](https://developer.nvidia.com/isaac-gym) to download the package.
+2. Install IsaacGym (tested with `Preview Release 4/4`). Follow the [instruction](https://developer.nvidia.com/isaac-gym) to download the package.
 ```	
 tar -xvf IsaacGym_Preview_4_Package.tar.gz
 cd isaacgym/python
@@ -54,7 +51,15 @@ pip install -e .
 (test installation) python examples/joint_monkey.py
 ```
 
-3. Using LLMs requires the use of the OpenAI API, and you need an OpenAI API key to use ITN.
+1. Install ITN
+```
+git clone https://github.com/JKX-yy/ITN-.git
+cd ITN-; pip install -e .
+cd isaacgymenvs; pip install -e .
+cd ../rl_games; pip install -e .
+```
+
+4. Using LLMs requires the use of the OpenAI API, and you need an OpenAI API key to use ITN.
    [here](https://platform.openai.com/account/api-keys)/
 ```
 openai.api_key= "YOUR_API_KEY"
