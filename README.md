@@ -3,10 +3,10 @@
 <div align="center">
 
 [[Website]](https://jkx-yy.github.io/)
-
-## PDF 文档
-
 <embed src="image/ieeeconf__第五版英文___8页_.pdf" width="600" height="400" type="application/pdf">
+
+
+
 [![Python Version](https://img.shields.io/badge/Python-3.8-blue.svg)](https://github.com/eureka-research/Eureka)
 [<img src="https://img.shields.io/badge/Framework-PyTorch-red.svg"/>](https://pytorch.org/)
 
