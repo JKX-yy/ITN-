@@ -4,6 +4,7 @@
 
 [[Website]](https://jkx-yy.github.io/)
 <embed src="image/ieeeconf__第五版英文___8页_.pdf" width="600" height="400" type="application/pdf">
+[点击这里查看 PDF 文件](image/ieeeconf__第五版英文___8页_.pdf)
 
 
 
