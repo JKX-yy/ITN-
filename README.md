@@ -54,32 +54,32 @@ pip install -e .
 (test installation) python examples/joint_monkey.py
 ```
 
-3. Eureka currently uses OpenAI API for language model queries. You need to have an OpenAI API key to use Eureka [here](https://platform.openai.com/account/api-keys)/. Then, set the environment variable in your terminal
+3. Using LLMs requires the use of the OpenAI API, and you need an OpenAI API key to use ITN.
+   [here](https://platform.openai.com/account/api-keys)/
 ```
-export OPENAI_API_KEY= "YOUR_API_KEY"
+openai.api_key= "YOUR_API_KEY"
+
 ```
 
 # Getting Started
 
-Navigate to the `eureka` directory and run:
+1. The generator generates the reward function,navigate to the `ITN` directory and run:
 ```
-python eureka.py env={environment} iteration={num_iterations} sample={num_samples}
+python ITN.py env={environment} iteration={num_iterations} sample={num_samples}
 ```
-- `{environment}` is the task to perform. Options are listed in `eureka/cfg/env`.
-- `{num_samples}` is the number of reward samples to generate per iteration. Default value is `16`.
-- `{num_iterations}` is the number of Eureka iterations to run. Default value is `5`.
+- `{environment}` is the task to perform. Options are listed in `ITN/cfg/env`.
+- `{num_samples}` is the number of reward samples to generate per iteration. Default value is `10`.
+- `{num_iterations}` is the number of  generator iterations to run. Default value is `5`.
+You can set the default parameters in ITN/cfg/config.yaml, we have set the default task to factory_task_nut_bolt_pick_place. if you are using the default parameters then just run it in terminal:
+```
+python ITN.py 
+```
 
-
-Below are some example commands to try out Eureka:
+Below are some example commands to try out ITN:
 ```
-python eureka.py env=shadow_hand sample=4 iteration=2 model=gpt-4-0314
+python ITN.py env=factory_task_nut_bolt_pick_place sample=10 iteration=2 model=gpt-4-0613
 ```
-```
-python eureka.py env=humanoid sample=16 iteration=5 model=gpt-3.5-turbo-16k-0613
-```
-Each run will create a timestamp folder in `eureka/outputs` that saves the Eureka log as well as all intermediate reward functions and associated policies.
-
-Other command line parameters can be found in `eureka/cfg/config.yaml`. The list of supported environments can be found in `eureka/cfg/env`.
+The results of the run can be viewed in ITN/outputs/ITN .You can also refer to https://github.com/eureka-research/Eureka. This project aims to further understand the principles of reward function generation, similar to our generator approach, except that the prompts and the problem to be solved are different. Our focus is on designing a process-oriented reward function for an  complex industrial operations problem.
 
 # Eureka Pen Spinning Demo
 We have released Eureka pen spinning policy in `isaacgymenvs/isaacgymenvs/checkpoints`. Try visualizing it with the following command:
