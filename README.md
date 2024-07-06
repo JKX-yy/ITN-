@@ -86,10 +86,30 @@ We have only given an example of transfer for the NutBolt_PickPlace task, the ot
 First of all the two base skills (Pick&Place) for this task are given in the skill space isaacgymenvs/isaacgymenvs/cfg/skill-space/skill-space.yaml, and you can also use only one of the skills for the target task for transfer learning.
 
 ```
-cd isaacgymenvs/isaacgymenvs
-python train.py test=True headless=False force_render=True task=ShadowHandSpin checkpoint=checkpoints/EurekaPenSpinning.pth
+cd ITN/   
 ```
-Note that this script use the default Isaac Gym renderer and not the Omniverse rendering in the paper videos.
+
+We give several examples of basic skills training:
+```
+python train.py task=FactoryTaskNutBoltPlace  is_transfor: False  is_adapt_w: False   
+```
+```
+python train.py task=FactoryTaskNutBoltPickGPT  is_transfor: False  is_adapt_w: False 
+```
+```
+python train.py task=FactoryTaskNutBoltScrew  is_transfor: False  is_adapt_w: False    
+```
+
+We give running code for  complex skills No_Transfer and ITN learning:
+Complex Skills  Learning from scratch (NO_Transfer)
+```
+python train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor: False  is_adapt_w: False    
+```
+Complex Skills  Accelerated learning through transfer learning
+
+```
+python train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor: True  is_adapt_w: True 
+```
 
 # Running Eureka on a New Environment
 1. Create a new IsaacGym environment; instructions can be found in [here](isaacgymenvs/docs/framework.md).
