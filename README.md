@@ -35,7 +35,7 @@ ______________________________________________________________________
 # Installation
 Eureka requires Python ≥ 3.8. We have tested on Ubuntu 20.04 and 22.04.
 
-```
+
 1.  Creat Conda  Environment
 
 ```
@@ -51,7 +51,7 @@ pip install -e .
 (test installation) python examples/joint_monkey.py
 ```
 
-1. Install ITN
+3. Install ITN
 ```
 git clone https://github.com/JKX-yy/ITN-.git
 cd ITN-; pip install -e .
