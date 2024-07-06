@@ -93,7 +93,7 @@ The results of the run can be viewed in ITN/outputs/ITN .You can also refer to h
 
 1.We give the checkpoints model for several tasks at isaacgymenvs/isaacgymenvs/checkpoints. you can see the simulation directly by running the following commands in your terminal.
 ```
-cd ITN/
+cd ITN-/
 ```
 FactoryTaskNutBoltPickGPT
 ```
