@@ -39,7 +39,7 @@ Eureka requires Python ≥ 3.8. We have tested on Ubuntu 20.04 and 22.04.
 ```
 git clone https://github.com/JKX-yy/ITN-.git
 ```
-We saved our running conda environment in isaacgymenvs/isaacgymenvs/environment.yml, and you only need to do the following steps to create an identical conda environment.You can change the name of your environment in environment.yml.
+We saved our running conda environment in **isaacgymenvs/isaacgymenvs/environment.yml**, and you only need to do the following steps to create an identical conda environment.You can change the name of your environment in environment.yml.
 ```
 cd isaacgymenvs/isaacgymenvs/
 conda env create -f environment.yml
