@@ -1,0 +1,401 @@
+is_transfor: false
+is_adapt_w: false
+similarity_threshold: 0.2
+is_soft_attention: false
+adapt_fps: 20
+model_gpt: gpt-4-0613
+gpt_key: sk-mdIi7O0RoLWufmEq02C4B5E7699f4b07Bc8d5cFe0cA9E3B2
+gpt_url: https://gtapi.xiaoerchaoren.com:8932/v1
+temperature: 1.0
+suffix: GPT
+task_name: ${task.name}
+experiment: ''
+env_path: ''
+num_envs: ''
+seed: 42
+torch_deterministic: false
+max_iterations: ''
+physics_engine: physx
+pipeline: gpu
+sim_device: cuda:0
+rl_device: cuda:0
+graphics_device_id: 0
+num_threads: 4
+solver_type: 1
+num_subscenes: 4
+test: true
+checkpoint: /home/jkx/桌面/project/ITN/checkpoints/last_FactoryTaskNutBoltPickPlaceGPT_ep_1024.pth
+sigma: ''
+multi_gpu: false
+wandb_activate: false
+wandb_group: ''
+wandb_name: ${train.params.config.name}
+wandb_entity: jma2020
+wandb_project: isaac_gpt
+wandb_tags: []
+wandb_logcode_dir: ''
+capture_video: false
+capture_video_freq: 5000
+capture_video_len: 200
+force_render: true
+headless: false
+task:
+  mode:
+    export_scene: false
+    export_states: false
+  sim:
+    dt: 0.016667
+    substeps: 2
+    up_axis: z
+    use_gpu_pipeline: ${eq:${...pipeline},"gpu"}
+    gravity:
+    - 0.0
+    - 0.0
+    - -9.81
+    add_damping: true
+    physx:
+      solver_type: ${....solver_type}
+      num_threads: ${....num_threads}
+      num_subscenes: ${....num_subscenes}
+      use_gpu: ${contains:"cuda",${....sim_device}}
+      num_position_iterations: 16
+      num_velocity_iterations: 0
+      contact_offset: 0.005
+      rest_offset: 0.0
+      bounce_threshold_velocity: 0.2
+      max_depenetration_velocity: 5.0
+      friction_offset_threshold: 0.01
+      friction_correlation_distance: 0.00625
+      max_gpu_contact_pairs: 1048576
+      default_buffer_size_multiplier: 8.0
+      contact_collection: 1
+    disable_gravity: false
+  env:
+    env_spacing: 0.5
+    franka_depth: 0.5
+    table_height: 0.4
+    franka_friction: 1.0
+    table_friction: 0.3
+    close_and_lift: true
+    env_name: factory_task_nut_bolt_pickGPT
+    numActions: 12
+    numEnvs: ${resolve_default:128,${...num_envs}}
+    numObservations: 41
+    num_gripper_close_sim_steps: 10
+    num_gripper_lift_sim_steps: 5
+    num_gripper_move_sim_steps: 20
+  action_seq:
+  - pick
+  - lift
+  ctrl:
+    all:
+      gripper_deriv_gains:
+      - 2
+      - 2
+      gripper_prop_gains:
+      - 50
+      - 50
+      jacobian_type: geometric
+    closed_loop_force:
+      force_ctrl_axes:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      wrench_prop_gains:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+    ctrl_type: joint_space_id
+    gym_default:
+      gripper_deriv_gains:
+      - 20
+      - 20
+      gripper_prop_gains:
+      - 500
+      - 500
+      ik_method: dls
+      joint_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      joint_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+    hybrid_force_motion:
+      force_ctrl_axes:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      motion_ctrl_axes:
+      - 1
+      - 1
+      - 0
+      - 1
+      - 1
+      - 1
+      task_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      task_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      wrench_prop_gains:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+    joint_space_id:
+      ik_method: dls
+      joint_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      joint_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+    joint_space_ik:
+      ik_method: dls
+      joint_deriv_gains:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      joint_prop_gains:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    open_loop_force:
+      force_ctrl_axes:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+    operational_space_motion:
+      motion_ctrl_axes:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      task_deriv_gains:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      task_prop_gains:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    task_space_impedance:
+      motion_ctrl_axes:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      task_deriv_gains:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      task_prop_gains:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+  name: FactoryTaskNutBoltPickGPT
+  physics_engine: ${..physics_engine}
+  randomize:
+    bolt_pos_xy_initial:
+    - 0.0
+    - 0.0
+    bolt_pos_xy_noise:
+    - 0.1
+    - 0.1
+    fingertip_midpoint_pos_initial:
+    - 0.0
+    - -0.2
+    - 0.2
+    fingertip_midpoint_pos_noise:
+    - 0.2
+    - 0.2
+    - 0.1
+    fingertip_midpoint_rot_initial:
+    - 3.1416
+    - 0
+    - 3.1416
+    fingertip_midpoint_rot_noise:
+    - 0.3
+    - 0.3
+    - 1
+    franka_arm_initial_dof_pos:
+    - 0.3413
+    - -0.8011
+    - -0.067
+    - -1.8299
+    - 0.0266
+    - 1.0185
+    - 1.0927
+    nut_pos_xy_initial:
+    - 0.0
+    - -0.3
+    nut_pos_xy_initial_noise:
+    - 0.1
+    - 0.1
+  rl:
+    action_penalty_scale: 0.0
+    clamp_rot: true
+    clamp_rot_thresh: 1.0e-06
+    close_error_thresh: 0.1
+    force_action_scale:
+    - 1.0
+    - 1.0
+    - 1.0
+    keypoint_reward_scale: 1.0
+    keypoint_scale: 0.5
+    max_episode_length: 120
+    max_pick_episode_length: 50
+    num_keypoints: 4
+    pos_action_scale:
+    - 0.1
+    - 0.1
+    - 0.1
+    rot_action_scale:
+    - 0.1
+    - 0.1
+    - 0.1
+    success_bonus: 50
+    torque_action_scale:
+    - 1.0
+    - 1.0
+    - 1.0
+  task_Description: There is an M12 nut on the table and the goal of Frank's robotic
+    arm is to first approach the M12 nut from and then lift the M12 nut vertically
+    from the table to a position where the height of the nut is the height of the
+    top of the bolt, keeping the nut xy-axis coordinates constant.
+train:
+  params:
+    algo:
+      name: a2c_continuous
+    config:
+      bounds_loss_coef: 0.0001
+      clip_value: true
+      critic_coef: 2
+      e_clip: 0.2
+      entropy_coef: 0.0
+      env_name: rlgpu
+      full_experiment_name: ${.name}
+      gamma: 0.99
+      grad_norm: 1.0
+      horizon_length: 120
+      kl_threshold: 0.016
+      learning_rate: 0.0001
+      lr_schedule: fixed
+      max_epochs: ${resolve_default:1024,${....max_iterations}}
+      mini_epochs: 8
+      minibatch_size: 512
+      mixed_precision: true
+      multi_gpu: false
+      name: ${resolve_default:FactoryTaskNutBoltPickGPT,${....experiment}}
+      normalize_advantage: true
+      normalize_input: true
+      normalize_value: true
+      num_actors: ${....task.env.numEnvs}
+      ppo: true
+      print_stats: true
+      reward_shaper:
+        scale_value: 1.0
+      save_best_after: 50
+      save_frequency: 100
+      schedule_type: standard
+      score_to_win: 20000
+      seq_len: 4
+      tau: 0.95
+      truncate_grads: false
+      value_bootstrap: true
+    load_checkpoint: ${if:${...checkpoint},True,False}
+    load_path: ${...checkpoint}
+    model:
+      name: continuous_a2c_logstd
+    network:
+      mlp:
+        activation: elu
+        d2rl: false
+        initializer:
+          name: default
+        regularizer:
+          name: None
+        units:
+        - 256
+        - 128
+        - 64
+      name: actor_critic
+      separate: false
+      space:
+        continuous:
+          fixed_sigma: true
+          mu_activation: None
+          mu_init:
+            name: default
+          sigma_activation: None
+          sigma_init:
+            name: const_initializer
+            val: 0
+    seed: ${...seed}

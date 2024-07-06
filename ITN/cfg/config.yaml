@@ -19,8 +19,8 @@ gpt_url: 'https://gtapi.xiaoerchaoren.com:8932/v1'
 
 
 # ITN parameters
-iteration:  10 # # how many iterations of ITN to run
-sample: 4  # number of ITN samples to generate per iteration
+iteration:  5 # # how many iterations of ITN to run
+sample: 10  # number of ITN samples to generate per iteration
 max_iterations: 1024 #  RL Policy training iterations (decrease this to make the feedback loop faster)
 num_eval: 5 # number of evaluation episodes to run for the final reward
 capture_video: False # whether to capture policy rollout videos

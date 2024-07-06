@@ -184,7 +184,7 @@ env:
   env_name: factory_task_nut_bolt_pick_placeGPT
   numActions: 12
   numEnvs: ${resolve_default:128,${...num_envs}}
-  numObservations: 34
+  numObservations: 41
   num_gripper_close_sim_steps: 10
   num_gripper_lift_sim_steps: 5
   num_gripper_move_sim_steps: 20

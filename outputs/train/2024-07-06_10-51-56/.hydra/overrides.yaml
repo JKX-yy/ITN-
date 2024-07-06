@@ -1,0 +1,3 @@
+- task=FactoryTaskPegHoleInsertionGPT
+- is_transfor=True
+- is_adapt_w=True

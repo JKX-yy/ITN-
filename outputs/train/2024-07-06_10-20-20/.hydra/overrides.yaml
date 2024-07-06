@@ -1,0 +1,7 @@
+- test=True
+- is_transfor=False
+- is_adapt_w=False
+- headless=False
+- force_render=True
+- task=FactoryTaskNutBoltPickGPT
+- checkpoint=heckpoints/last_FactoryTaskNutBoltPickPlaceGPT_ep_1024.pth

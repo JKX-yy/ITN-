@@ -1,0 +1,5 @@
+- test=True
+- headless=False
+- force_render=True
+- task=FactoryTaskNutBoltPickGPT
+- checkpoint=checkpoints/last_FactoryTaskNutBoltPickPlaceGPT_ep.pth

@@ -1,0 +1,13 @@
+#Basic  Skills   
+FactoryTaskNutBoltPlace   #python train.py task=FactoryTaskNutBoltPlace  is_transfor: False  is_adapt_w: False 
+FactoryTaskNutBoltPickGPT  #python train.py task=FactoryTaskNutBoltPickGPT  is_transfor: False  is_adapt_w: False 
+FactoryTaskNutBoltScrew   ##python train.py task=FactoryTaskNutBoltScrew  is_transfor: False  is_adapt_w: False 
+
+#Complex Skills  Learning from scratch (NO_Transfer)
+FactoryTaskNutBoltPickPlaceGPT  #python train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor: False  is_adapt_w: False 
+FactoryTaskPegHoleInsertionGPT  #python train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor: False  is_adapt_w: False 
+
+
+#Complex Skills  Accelerated learning through transfer learning
+FactoryTaskNutBoltPickPlaceGPT  #python train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor: True  is_adapt_w: True 
+FactoryTaskPegHoleInsertionGPT  #python train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor: True  is_adapt_w: True 
