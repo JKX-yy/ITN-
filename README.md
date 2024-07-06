@@ -127,53 +127,16 @@ Complex Skills  Accelerated learning through transfer learning(ITN).
 You need to open rl_games/rl_games/algos_torch/network_builder.py and comment out the default class A2CBuilder(NetworkBuilder) (# NO_TRANSFER). Free the class A2CBuilder(NetworkBuilder)# #ITN.
 
 ```
-python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor=True  is_adapt_w=True 
+python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor=True  is_adapt_w=True 
 ```
 
-# Running Eureka on a New Environment
-1. Create a new IsaacGym environment; instructions can be found in [here](isaacgymenvs/docs/framework.md).
-2. Verify that standard RL works for your new environment.
-```
-cd isaacgymenvs/isaacgymenvs
-python train.py task=YOUR_NEW_TASK
-```
-3. Create a new yaml file `your_new_task.yaml` in `eureka/cfg/env`:
-```
-env_name: your_new_task
-task: YOUR_NEW_TASK 
-description: ...
-```
-4. Construct the raw environment code that will serve as context for Eureka as well as the skeleton environment code on which the Eureka reward will be appended to:
-```
-cd eureka/utils
-python prune_env.py your_new_task
-```
-
-5. Try out Eureka!
-```
-python eureka.py env=your_new_task
-```
+# Creating  a New Environment
+If you want to create a new task, you need to write a .yaml file and .py file, specifically you can the code in the project.
 
 # Acknowledgement
 We thank the following open-sourced projects:
-- Our environments are from [IsaacGym](https://github.com/NVIDIA-Omniverse/IsaacGymEnvs) and [DexterousHands](https://github.com/PKU-MARL/DexterousHands/).
+- Our environments are from [IsaacGym](https://github.com/NVIDIA-Omniverse/IsaacGymEnvs)
 - Our RL training code is based on [rl_games](https://github.com/Denys88/rl_games).
+- Our partially generated code implementation references the  [eureka](https://github.com/eureka-research/Eureka).
 
-
-# License
-This codebase is released under [MIT License](LICENSE).
-
-# Citation
-If you find our work useful, please consider citing us!
-
-```bibtex
-@article{ma2023eureka,
-  title   = {Eureka: Human-Level Reward Design via Coding Large Language Models},
-  author  = {Yecheng Jason Ma and William Liang and Guanzhi Wang and De-An Huang and Osbert Bastani and Dinesh Jayaraman and Yuke Zhu and Linxi Fan and Anima Anandkumar},
-  year    = {2023},
-  journal = {arXiv preprint arXiv: Arxiv-2310.12931}
-}
-```
-
-Disclaimer: This project is strictly for research purposes, and not an official product from NVIDIA.
 
