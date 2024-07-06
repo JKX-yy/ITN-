@@ -29,7 +29,7 @@ ______________________________________________________________________
   </div>
 </section>
 
-https://github.com/JKX-yy/JKX-yy.github.io/blob/main/static/image/project.mp4
+
 
 
 # Installation
