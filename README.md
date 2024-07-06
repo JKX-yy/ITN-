@@ -39,13 +39,14 @@ Eureka requires Python ≥ 3.8. We have tested on Ubuntu 20.04 and 22.04.
 ```
 git clone https://github.com/JKX-yy/ITN-.git
 ```
+2  Creat Conda  Environment
 We saved our running conda environment in **isaacgymenvs/isaacgymenvs/environment.yml**, and you only need to do the following steps to create an identical conda environment.You can change the name of your environment in environment.yml.
 ```
 cd isaacgymenvs/isaacgymenvs/
 conda env create -f environment.yml
 ```
 
-2. Install IsaacGym (tested with `Preview Release 4/4`). Follow the [instruction](https://developer.nvidia.com/isaac-gym) to download the package.
+3. Install IsaacGym (tested with `Preview Release 4/4`). Follow the [instruction](https://developer.nvidia.com/isaac-gym) to download the package.
 ```	
 tar -xvf IsaacGym_Preview_4_Package.tar.gz
 cd isaacgym/python
