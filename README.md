@@ -58,10 +58,9 @@ pip install -e .
    [here](https://platform.openai.com/account/api-keys)/
 ```
 openai.api_key= "YOUR_API_KEY"
-
 ```
 
-# Getting Started
+# The Generator Generates the Reward Function
 
 1. The generator generates the reward function,navigate to the `ITN` directory and run:
 ```
@@ -81,8 +80,10 @@ python ITN.py env=factory_task_nut_bolt_pick_place sample=10 iteration=2 model=g
 ```
 The results of the run can be viewed in ITN/outputs/ITN .You can also refer to https://github.com/eureka-research/Eureka. This project aims to further understand the principles of reward function generation, similar to our generator approach, except that the prompts and the problem to be solved are different. Our focus is on designing a process-oriented reward function for an  complex industrial operations problem.
 
-# Eureka Pen Spinning Demo
-We have released Eureka pen spinning policy in `isaacgymenvs/isaacgymenvs/checkpoints`. Try visualizing it with the following command:
+# Robotics Skills Transfer Learning
+We have only given an example of transfer for the NutBolt_PickPlace task, the other tasks are on the same principle.
+First of all the two base skills (Pick&Place) for this task are given in the skill space isaacgymenvs/isaacgymenvs/cfg/skill-space/skill-space.yaml, and you can also use only one of the skills for the target task for transfer learning.
+
 ```
 cd isaacgymenvs/isaacgymenvs
 python train.py test=True headless=False force_render=True task=ShadowHandSpin checkpoint=checkpoints/EurekaPenSpinning.pth
