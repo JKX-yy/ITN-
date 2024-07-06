@@ -82,15 +82,24 @@ The results of the run can be viewed in ITN/outputs/ITN .You can also refer to h
 
 # Robotics Skills Transfer Learning
 
-We give the checkpoints model for several tasks at isaacgymenvs/isaacgymenvs/checkpoints. you can see the simulation directly by running the following commands in your terminal.
+1.We give the checkpoints model for several tasks at isaacgymenvs/isaacgymenvs/checkpoints. you can see the simulation directly by running the following commands in your terminal.
 ```
 cd ITN/
 ```
+FactoryTaskNutBoltPickGPT
 ```
-python train.py test=True headless=False force_render=True task=FactoryTaskNutBoltPickGPT checkpoint=checkpoints/last_FactoryTaskNutBoltPickGPT_ep_1024.pth
+python ./isaacgymenvs/isaacgymenvs/train.py test=True  is_transfor=False is_adapt_w=False headless=False force_render=True task=FactoryTaskNutBoltPickGPT checkpoint=isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickGPT_ep_1024.pth
+
+```
+FactoryTaskNutBoltPickPlaceGPT
+
+As long as the parameter is_transfor=True is_adapt_w=True. you need to open rl_games/rl_games/algos_torch/network_builder.py and comment out the default class A2CBuilder(NetworkBuilder) (# NO_TRANSFER). Free the class A2CBuilder(NetworkBuilder)# #ITN. In all other cases use default class A2CBuilder(NetworkBuilder). 
+
+```
+python ./isaacgymenvs/isaacgymenvs/train.py test=True  is_transfor=True is_adapt_w=True headless=False force_render=True task=FactoryTaskNutBoltPickPlaceGPT checkpoint=isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickPlaceGPT_ep.pth
 ```
 
-We have only given an example of transfer for the NutBolt_PickPlace task, the other tasks are on the same principle.
+2.We have only given an example of transfer for the NutBolt_PickPlace task, the other tasks are on the same principle.
 
 First of all the two base skills (Pick&Place) for this task are given in the skill space isaacgymenvs/isaacgymenvs/cfg/skill-space/skill-space.yaml, and you can also use only one of the skills for the target task for transfer learning.
 
@@ -98,27 +107,27 @@ First of all the two base skills (Pick&Place) for this task are given in the ski
 
 We give several examples of basic skills training:
 ```
-python train.py task=FactoryTaskNutBoltPlace  is_transfor: False  is_adapt_w: False   
+python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskNutBoltPlace  is_transfor=False  is_adapt_w=False   
 ```
 ```
-python train.py task=FactoryTaskNutBoltPickGPT  is_transfor: False  is_adapt_w: False 
+python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskNutBoltPickGPT  is_transfor=False  is_adapt_w=False   
 ```
 ```
-python train.py task=FactoryTaskNutBoltScrew  is_transfor: False  is_adapt_w: False    
+python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskNutBoltScrew  is_transfor=False  is_adapt_w=False   
 ```
 
 We give running code for  complex skills No_Transfer and ITN learning:
 
 Complex Skills  Learning from scratch (NO_Transfer)
 ```
-python train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor: False  is_adapt_w: False    
+python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskNutBoltPickPlaceGPT  is_transfor=False  is_adapt_w=False   
 ```
 Complex Skills  Accelerated learning through transfer learning(ITN).
 
 You need to open rl_games/rl_games/algos_torch/network_builder.py and comment out the default class A2CBuilder(NetworkBuilder) (# NO_TRANSFER). Free the class A2CBuilder(NetworkBuilder)# #ITN.
 
 ```
-python train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor: True  is_adapt_w: True 
+python ./isaacgymenvs/isaacgymenvs/train.py task=FactoryTaskPegHoleInsertionGPT  is_transfor=True  is_adapt_w=True 
 ```
 
 # Running Eureka on a New Environment
