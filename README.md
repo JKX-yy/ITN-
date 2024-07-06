@@ -81,13 +81,20 @@ python ITN.py env=factory_task_nut_bolt_pick_place sample=10 iteration=2 model=g
 The results of the run can be viewed in ITN/outputs/ITN .You can also refer to https://github.com/eureka-research/Eureka. This project aims to further understand the principles of reward function generation, similar to our generator approach, except that the prompts and the problem to be solved are different. Our focus is on designing a process-oriented reward function for an  complex industrial operations problem.
 
 # Robotics Skills Transfer Learning
+
+We give the checkpoints model for several tasks at isaacgymenvs/isaacgymenvs/checkpoints. you can see the simulation directly by running the following commands in your terminal.
+```
+cd ITN/
+```
+```
+python train.py test=True headless=False force_render=True task=FactoryTaskNutBoltPickGPT checkpoint=checkpoints/last_FactoryTaskNutBoltPickGPT_ep_1024.pth
+```
+
 We have only given an example of transfer for the NutBolt_PickPlace task, the other tasks are on the same principle.
 
 First of all the two base skills (Pick&Place) for this task are given in the skill space isaacgymenvs/isaacgymenvs/cfg/skill-space/skill-space.yaml, and you can also use only one of the skills for the target task for transfer learning.
 
-```
-cd ITN/   
-```
+
 
 We give several examples of basic skills training:
 ```
