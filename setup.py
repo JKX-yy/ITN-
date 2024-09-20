@@ -20,6 +20,8 @@ INSTALL_REQUIRES = [
     "pyvirtualdisplay",
     'tenacity==9.0.0',
     'openai==0.28.1',
+    'pandas==2.0.3'
+    'sentence-transformers'
 ]
 
 # Installation operation

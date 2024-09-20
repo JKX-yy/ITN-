@@ -105,16 +105,9 @@ class Runner:
         self.params['config']['init_transfor_sys_path']=args['init_transfor_sys_path']
 
         self.agent = self.algo_factory.create(self.algo_name, base_name='run', params=self.params)  #初始化模型
-        # if  args['is_adapt_w']:
-        #     checkpoint = torch_ext.load_checkpoint(args['transfor'][3][0])
-        #     # self.agent.model.running_mean_std.load_state_dict(checkpoint['model']['running_mean_std'])
-        #     self.agent.model.running_mean_std.count=checkpoint['model']['running_mean_std.count']
-        #     self.agent.model.running_mean_std.running_mean=checkpoint['model']['running_mean_std.running_mean']
-        #     self.agent.model.running_mean_std.running_var=checkpoint['model']['running_mean_std.running_var']
-        # 迁移什么时候赋予不同的人物的  std 什么时候是不迁移的std  不迁移的std是怎么用的 怎么富裕的。
-        
-        _restore(self.agent, args) #没看
-        _override_sigma(self.agent, args)  #none  直接返回不满足if
+      
+        _restore(self.agent, args) #
+        _override_sigma(self.agent, args)  #none  
         self.agent.transfor=args['transfor']
         self.agent.is_adapt_w=args['is_adapt_w']
         self.agent.is_soft_attention=args['is_soft_attention']
@@ -122,7 +115,7 @@ class Runner:
         self.agent.train()
 
     def run_play(self, args):
-        # args['checkpoint']='/home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickGPT_ep_1024.pth'
+       
         print('Started to play')
         player = self.create_player(args)
         _restore(player, args)  #   running_mean_std

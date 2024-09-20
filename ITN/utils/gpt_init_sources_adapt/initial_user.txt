@@ -1,1 +1,0 @@
-The task description of the target task is:{target_descr},the task descriptions of the several original tasks are:{source_descr},the sequence of execution actions of the target task is:{tar_action_seq}, and the sequence of execution actions of the several original tasks is:{source_action_seq}

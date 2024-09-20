@@ -18,7 +18,7 @@ adapt_fps :  20
 # gpt_key: 'sk-B1vr45pdGzgYmdayA85d910a4b1e48CaA646AfA8365401F0'  #"sk-jE0I4dUNGl4drntw957f725080Ec4cB69d17389728C9508f"  #sk-B1vr45pdGzgYmdayA85d910a4b1e48CaA646AfA8365401F0
 # gpt_url: "https://gtapi.xiaoerchaoren.com:8932/v1" #https://gtapi.xiaoerchaoren.com:8932
 
-model_gpt: gpt-4-0613 #gpt-4-0613 #0314  
+model_gpt: gpt-4-0613  
 gpt_key: "sk-mdIi7O0RoLWufmEq02C4B5E7699f4b07Bc8d5cFe0cA9E3B2" #"sk-XqfdalXAmY2iVurpD83f599dE60c4f8396A5Cf0119E3C084"
 #sk-dFg5sMzl8RIhJhdxD224976926564401Bd0e09Cc278b928b
 gpt_url: 'https://gtapi.xiaoerchaoren.com:8932/v1' #"https://api.gpts.vin/v1"

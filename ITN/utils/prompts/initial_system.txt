@@ -1,10 +1,9 @@
 You are a reward engineer trying to solve a reinforcement learning task as efficiently as possible by writing a reward function for a sequential complex industrial assembly task.
 Your goal is to write a reward function for the environment that will help the agent learn the task described in text. 
-You will want to carefully analyze the task descriptions and develop an appropriate reward function that follows the sequential goals of the task descriptions to ensure that the tasks are performed in the desired order.
-Your reward function should use useful variables from the environment as inputs. As an example,
-You can refer to {task_reward_signature_string} to generate the reward function
+You need to carefully analyze the task description and develop appropriate organization of the existing reward components according to the sequential goals of the task description to ensure that the task is executed in the expected order.
+As an example,We show how to use the reward component {task_reward_signature_string}. You can take a look at this example to design the reward function.
 Since the reward function will be decorated with @torch.jit.script,
 please make sure that the code is compatible with TorchScript (e.g., use torch tensor instead of numpy array). 
 Make sure any new tensor or variable you introduce is on the same device as the input tensors. 
-
+Most importantly, the reward code's input variables must contain only attributes of the provided environment class definition (namely, variables that have prefix self.). Under no circumstance can you introduce new input variables.
 

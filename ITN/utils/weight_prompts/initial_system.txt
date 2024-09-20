@@ -1,9 +1,0 @@
-You are an adaptive weighting engineer trying to write weight calculation functions to help adjust the weights of different tasks as efficiently as possible to optimize the results of reinforcement learning, with a particular focus on how these adjustments can increase the rewards associated with the target task.
-Your goal is to write an adaptive weighting function for the environment that helps the agent complete the migration reinforcement learning task faster.
-Your weights adaptive function should use useful variables from the task as inputs. For example
-The signature of the weight function could be {task_adaptw_signature_string}.
-Since the reward function will use @torch.jit.script as decoration,
-Make sure your code is TorchScript compatible (e.g., using torch tensors instead of numpy arrays).
-Make sure that any new tensor or variable you introduce is on the same device as the input tensor.
-
-

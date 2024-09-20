@@ -3,12 +3,12 @@ task1:
   action_seq:
   - pick
   - lift
-  module_path: /home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/outputs/train/2024-07-03_09-45-26/runs/FactoryTaskNutBoltPickGPT-2024-07-03_09-45-27/nn/last_FactoryTaskNutBoltPickGPT_ep_1024.pth
+  module_path: isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickGPT_ep_1024.pth  #/home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/outputs/train/2024-07-03_09-45-26/runs/FactoryTaskNutBoltPickGPT-2024-07-03_09-45-27/nn/last_FactoryTaskNutBoltPickGPT_ep_1024.pth
   task_description: There is an M12 nut on the table, and the goal of Frank's robotic arm is to clamp the nut on the table.
   task_name: FactoryTaskNutBoltPickGPT
 
 task2:
-  module_path: /home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/outputs/train/2024-04-09_21-23-07/runs/FactoryTaskNutBoltPlace-2024-04-09_21-23-08/nn/FactoryTaskNutBoltPlace.pth
+  module_path: isaacgymenvs/isaacgymenvs/checkpoints/last_FactoryTaskNutBoltPickPlaceGPT_ep.pth #/home/jkx/桌面/project/ITN/isaacgymenvs/isaacgymenvs/outputs/train/2024-04-09_21-23-07/runs/FactoryTaskNutBoltPlace-2024-04-09_21-23-08/nn/FactoryTaskNutBoltPlace.pth
   task_description: Franks arm grasps the model M12 nut and approaches the model M12 stud placed on the table and places the nut on the bolt.
   task_name: FactoryTaskNutBoltPlace
   action_seq:

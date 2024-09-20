@@ -1,4 +1,0 @@
-@torch.jit.script
-def adapt_weight(input: torch.Tensor, output: torch.Tensor) :
-    ...
-    return new_adapt_w
