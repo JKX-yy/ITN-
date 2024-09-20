@@ -50,10 +50,10 @@ conda activate ITN
 3. Install IsaacGym (tested with `Preview Release 4/4`)
 ```	
 
-cd ITN-/IsaacGym/isaacgym/python
+cd ITN-/isaacgym/python
 pip install -e .
 #(Test if the installation is successful and the emulation screen appears.)
-cd ITN-/IsaacGym/isaacgym/python/examples
+cd ITN-/isaacgym/python/examples
 python joint_monkey.py
 ```
 
