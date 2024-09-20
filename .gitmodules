@@ -1,0 +1,4 @@
+[submodule "isaacgymenvs/isaacgymenvs/sentencetransformers"]
+	path = isaacgymenvs/isaacgymenvs/sentencetransformers
+	url =https://github.com/UKPLab/sentence-transformers.git
+
