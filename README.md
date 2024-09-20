@@ -33,7 +33,7 @@ ______________________________________________________________________
 
 
 # Installation
-Eureka requires Python ≥ 3.8. We have tested on Ubuntu 20.04
+ITN requires Python ≥ 3.8. We have tested on Ubuntu 20.04
 
 1.clone
 ```
