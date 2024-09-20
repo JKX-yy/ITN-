@@ -86,7 +86,7 @@ python ITN.py
 
 Below are some example commands to try out ITN:
 ```
-python ITN.py env=factory_task_nut_bolt_pick_place sample=10 iteration=2 model=gpt-4-0613
+python ITN.py env=factory_task_nut_bolt_pick sample=5 iteration=5 model=gpt-4-0613
 ```
 The results of the run can be viewed in ITN/outputs/ITN .You can also refer to https://github.com/eureka-research/Eureka. This project aims to further understand the principles of reward function generation, similar to our generator approach, except that the prompts and the problem to be solved are different. Our focus is on designing a process-oriented reward function for an  complex industrial operations problem.
 
