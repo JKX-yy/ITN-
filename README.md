@@ -53,7 +53,7 @@ conda activate ITN
 cd ITN-/isaacgym/python
 pip install -e .
 #(Test if the installation is successful and the emulation screen appears.)
-cd ITN-/isaacgym/python/examples
+cd /examples
 python joint_monkey.py
 ```
 
