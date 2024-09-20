@@ -18,6 +18,8 @@ INSTALL_REQUIRES = [
     "termcolor",
     "hydra-core>=1.1",
     "pyvirtualdisplay",
+    'tenacity==9.0.0',
+    'openai==0.28.1',
 ]
 
 # Installation operation
