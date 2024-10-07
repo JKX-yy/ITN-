@@ -102,7 +102,7 @@ python ./isaacgymenvs/isaacgymenvs/train.py test=True  is_transfor=False is_adap
 
 ```
 FactoryTaskNutBoltPickPlaceGPT
-
+First, you need to change all the module_paths in ITN-/isaacgymenvs/isaacgymenvs/cfg/skill-space/skill-space.yaml to your own absolute addresses.
 As long as the parameter is_transfor=True is_adapt_w=True. you need to open rl_games/rl_games/algos_torch/network_builder.py and comment out the default class A2CBuilder(NetworkBuilder) (# NO_TRANSFER). Free the class A2CBuilder(NetworkBuilder)# #ITN. In all other cases use default class A2CBuilder(NetworkBuilder). 
 
 ```
